@@ -8,8 +8,8 @@ void GemUI::setPlayerPos(XMFLOAT3 mPos)
 	m_Pos = mPos;
 }
 
-//¸Ê¿¡ 3°³ÀÇ º¸¼® À§Ä¡
-//shouldUI´Â È­»ìÇ¥ UI¸¦ ·»´õÇÒÁö ¸»Áö °áÁ¤ÇÏ´Â bool
+//ë§µì— 3ê°œì˜ ë³´ì„ ìœ„ì¹˜
+//shouldUIëŠ” í™”ì‚´í‘œ UIë¥¼ ë Œë”í• ì§€ ë§ì§€ ê²°ì •í•˜ëŠ” bool
 void GemUI::initGem()
 {
 	gem1 = true;
@@ -21,7 +21,7 @@ void GemUI::initGem()
 
 void GemUI::updateGem()
 {	
-	//ÇÃ·¹ÀÌ¾î°¡ ÁöÁ¤µÈ ÁÂÇ¥¾È¿¡ ÀÖÀ»°æ¿ì º¸¼®À§¿¡ È­»ìÇ¥°¡ Ç¥½ÃµÊ
+	//í”Œë ˆì´ì–´ê°€ ì§€ì •ëœ ì¢Œí‘œì•ˆì— ìžˆì„ê²½ìš° ë³´ì„ìœ„ì— í™”ì‚´í‘œê°€ í‘œì‹œë¨
 	if (m_Pos.x > -10.5f && m_Pos.x < -4.5f && m_Pos.z < -28.0f && m_Pos.z > -34.0f) {		
 		shouldUI = true;
 		gem1range = true;
@@ -58,20 +58,20 @@ void GemUI::updateGem()
 
 }
 
-//º¸¼®À§ÀÇ »¡°£È­»ìÇ¥¸¦ ±×¸± ½ºÅ©¸° ÁÂÇ¥ °è»ê
+//ë³´ì„ìœ„ì˜ ë¹¨ê°„í™”ì‚´í‘œë¥¼ ê·¸ë¦´ ìŠ¤í¬ë¦° ì¢Œí‘œ ê³„ì‚°
 XMFLOAT2 GemUI::WorldToScreen(const XMFLOAT3& worldPos, const XMMATRIX& viewProj, float screenWidth, float screenHeight)
 {
 	XMVECTOR worldVec = XMLoadFloat3(&worldPos);
 
-	// ¿ùµå -> Å¬¸³ ÁÂÇ¥ º¯È¯
+	// ì›”ë“œ -> í´ë¦½ ì¢Œí‘œ ë³€í™˜
 	XMVECTOR clipPos = XMVector3Transform(worldVec, viewProj);
 
-	// NDC ÁÂÇ¥·Î º¯È¯ (Clip Space -> NDC)
+	// NDC ì¢Œí‘œë¡œ ë³€í™˜ (Clip Space -> NDC)
 	clipPos = XMVectorScale(clipPos, 1.0f / XMVectorGetW(clipPos));
 
-	// ½ºÅ©¸° ÁÂÇ¥·Î º¯È¯ (NDC -> Screen Space)
+	// ìŠ¤í¬ë¦° ì¢Œí‘œë¡œ ë³€í™˜ (NDC -> Screen Space)
 	float x = (XMVectorGetX(clipPos) + 1.0f) * 0.5f * screenWidth;
-	float y = (1.0f - XMVectorGetY(clipPos)) * 0.5f * screenHeight; // yÃà µÚÁý±â
+	float y = (1.0f - XMVectorGetY(clipPos)) * 0.5f * screenHeight; // yì¶• ë’¤ì§‘ê¸°
 
 	return XMFLOAT2(x, y);
 }
