@@ -6,7 +6,7 @@ class GemUI
 {
 public:
 	static GemUI& GetInstance() {
-		if (instance == nullptr) { // nullptr »ç¿ë ±ÇÀå
+		if (instance == nullptr) { // nullptr Â»Ã§Â¿Ã« Â±Ã‡Ã€Ã¥
 			instance = new GemUI();
 		}
 		return *instance;
