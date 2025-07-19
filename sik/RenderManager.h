@@ -44,7 +44,7 @@ class RenderManager
 public:	
 	RenderManager();
 	RenderManager(ID3D12Device* device, CD3DX12_CPU_DESCRIPTOR_HANDLE& cvhand, UINT descriptorsize, int globaloffset, D3D12_VIEWPORT viewport, ComPtr<ID3D12PipelineState> pipelineState,
-		ID3D12CommandQueue* commandQueue, IDXGISwapChain3* swapChain);//«⁄µÈ ∆˜¿Œ≈Õ..?
+		ID3D12CommandQueue* commandQueue, IDXGISwapChain3* swapChain);//√á√ö¬µ√© √Ü√∑√Ä√é√Ö√ç..?
 	~RenderManager();
 	void Load(const wchar_t* fileName);
 	Subset BuildMaterial(WaveFrontReader<index_t>::Material& cottageMaterial, int offset);
