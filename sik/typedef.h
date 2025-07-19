@@ -22,9 +22,9 @@ struct UIVertex
 };
 
 struct Subset {
-    ComPtr<ID3D12Resource> materialBuffer = nullptr; // ±âº»°ªÀ¸·Î nullptr ¼³Á¤
-    D3D12_GPU_VIRTUAL_ADDRESS materialBufferAddress = 0; // GPU ÁÖ¼Ò´Â ±âº»°ª 0À¸·Î ¼³Á¤
-    int offset = 0; // ±âº»°ª 0
+    ComPtr<ID3D12Resource> materialBuffer = nullptr; // ê¸°ë³¸ê°’ìœ¼ë¡œ nullptr ì„¤ì •
+    D3D12_GPU_VIRTUAL_ADDRESS materialBufferAddress = 0; // GPU ì£¼ì†ŒëŠ” ê¸°ë³¸ê°’ 0ìœ¼ë¡œ ì„¤ì •
+    int offset = 0; // ê¸°ë³¸ê°’ 0
     bool istexture = false;
 };
 
