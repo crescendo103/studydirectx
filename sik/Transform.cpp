@@ -7,19 +7,19 @@
 void Transform::calSRT(std::vector <Mainset>& Tree)
 {    
 
-    //¸ğµç ÇÁ·¹ÀÓÀÌ ¾ÆÁ÷ Àû¿ë¾È‰ÑÀ»¶§ °è»êÇÏÁö ¾Ê´Â´Ù.
+    //ëª¨ë“  í”„ë ˆì„ì´ ì•„ì§ ì ìš©ì•ˆÂ‰è¨˜ë»‘ ê³„ì‚°í•˜ì§€ ì•ŠëŠ”ë‹¤.
     if (!istransingdone) {        
         return;
     }
 
-    //¹üÀ§³» ÇÃ·¹ÀÌ¾î°¡ ÀÖÀ»¶§
+    //ë²”ìœ„ë‚´ í”Œë ˆì´ì–´ê°€ ìˆì„ë•Œ
     if (m_cam->isrange()) {
         israge = true;
-        firstGetBack = true;//Ã³À½ ¹üÀ§³»¿¡¼­ ¹ş¾î³µÀ»¶§ °è»êÀ» À§ÇÑ ¿ÀÇÁ¼Â
+        firstGetBack = true;//ì²˜ìŒ ë²”ìœ„ë‚´ì—ì„œ ë²—ì–´ë‚¬ì„ë•Œ ê³„ì‚°ì„ ìœ„í•œ ì˜¤í”„ì…‹
 
         if (istransingdone) {
 
-        if (walking == true) {//±æ°¡´øÁß ÇÃ·¹ÀÌ¾îÇÑÅ× ¿Í¾ßÇÒ¶§            
+        if (walking == true) {//ê¸¸ê°€ë˜ì¤‘ í”Œë ˆì´ì–´í•œí…Œ ì™€ì•¼í• ë•Œ            
             bArrivedAtCheckpoint = false;
             walking = false;
             changeOccurePoint = objectPos;
@@ -27,7 +27,7 @@ void Transform::calSRT(std::vector <Mainset>& Tree)
             XMStoreFloat3(&checkpoint, changeOccurePoint);
             footprint.push(checkpoint);
         }
-        else {//ÀÌ¹Ì ³ªÇÑÅ× ¿À°íÀÖÀ»¶§
+        else {//ì´ë¯¸ ë‚˜í•œí…Œ ì˜¤ê³ ìˆì„ë•Œ
             
         }
             ComeOnMe(Tree);
@@ -35,41 +35,41 @@ void Transform::calSRT(std::vector <Mainset>& Tree)
 
 
     }
-    else {//¹üÀ§ ¹ÛÀÏ¶§
+    else {//ë²”ìœ„ ë°–ì¼ë•Œ
         israge = false;
         if (istransingdone == true) {
 
-            if (!walking) {//ÁÖ¾îÁø±æ·Î µ¹¾Æ°¡¾ßÇÒ¶§
+            if (!walking) {//ì£¼ì–´ì§„ê¸¸ë¡œ ëŒì•„ê°€ì•¼í• ë•Œ
                 getBack(Tree);
             }
-            else {//ÁÖ¾îÁø ±æÀ» °È°íÀÖÀ»¶§     
+            else {//ì£¼ì–´ì§„ ê¸¸ì„ ê±·ê³ ìˆì„ë•Œ     
 
              XMMATRIX rotationMatrix = XMMatrixRotationY(XMConvertToRadians(0.0f));
 
-             //ÁÖ¾îÁø±æ¿¡ ´Ù½Ã ÇÕ·ùÇßÀ»¶§ È¸ÀüÇà·Ä °è»ê
+             //ì£¼ì–´ì§„ê¸¸ì— ë‹¤ì‹œ í•©ë¥˜í–ˆì„ë•Œ íšŒì „í–‰ë ¬ ê³„ì‚°
              
              if (!bArrivedAtCheckpoint) {
                  bArrivedAtCheckpoint = true;
 
-                 // Á¤±ÔÈ­ (È¤½Ã ¸ğ¸£´Ï±î)
-                 XMVECTOR fromDir = XMVector3Normalize(accumulateRotate);//home¿¡¼­ ¹Ù²ñ
+                 // ì •ê·œí™” (í˜¹ì‹œ ëª¨ë¥´ë‹ˆê¹Œ)
+                 XMVECTOR fromDir = XMVector3Normalize(accumulateRotate);//homeì—ì„œ ë°”ë€œ
                  XMVECTOR toDir = XMVector3Normalize(currentDirection);
 
-                 // Y°ª 0À¸·Î (¼öÆò¸¸ È¸Àü)
+                 // Yê°’ 0ìœ¼ë¡œ (ìˆ˜í‰ë§Œ íšŒì „)
                  fromDir = XMVectorSetY(fromDir, 0.0f);
                  toDir = XMVectorSetY(toDir, 0.0f);
 
-                 // È¸ÀüÃà ±¸ÇÏ±â
+                 // íšŒì „ì¶• êµ¬í•˜ê¸°
                  XMVECTOR rotationAxis = XMVector3Cross(fromDir, toDir);
 
-                 // µÎ º¤ÅÍ »çÀÌ °¢µµ
+                 // ë‘ ë²¡í„° ì‚¬ì´ ê°ë„
                  float angle = XMVectorGetX(XMVector3AngleBetweenNormals(fromDir, toDir));
 
-                 // È¤½Ã ÃàÀÌ 0ÀÌ¸é (°°Àº ¹æÇâÀÌ°Å³ª ¹İ´ë) ±âº» UpÃà
+                 // í˜¹ì‹œ ì¶•ì´ 0ì´ë©´ (ê°™ì€ ë°©í–¥ì´ê±°ë‚˜ ë°˜ëŒ€) ê¸°ë³¸ Upì¶•
                  if (XMVector3Equal(rotationAxis, XMVectorZero()))
                      rotationAxis = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
-                 // È¸ÀüÇà·Ä
+                 // íšŒì „í–‰ë ¬
                  rotationMatrix = XMMatrixRotationAxis(rotationAxis, angle);
 
                  
@@ -84,7 +84,7 @@ void Transform::calSRT(std::vector <Mainset>& Tree)
 
             //XMMATRIX rotationMatrix = XMMatrixRotationY(XMConvertToRadians(0.0f));6.08
 
-            if (current == destination) {//ºĞ±âÁ¡ À§Ä¡ÇÒ¶§
+            if (current == destination) {//ë¶„ê¸°ì  ìœ„ì¹˜í• ë•Œ
                 int num = pt.iscrossing(destination);
                 std::list<Point> graph = pt.getListGraph(num);
 
@@ -94,41 +94,41 @@ void Transform::calSRT(std::vector <Mainset>& Tree)
                 for (int i = 0; i < slectList; i++) {
                     iter++;
                 }
-                //¸ñÀûÁö Àç¼³Á¤
+                //ëª©ì ì§€ ì¬ì„¤ì •
                 destination.x = iter->x;
                 destination.z = iter->z;
 
                 previousstate = currentstate;
-                //Á÷Áø>>Á÷ÁøÀÏ¶§ ¼öÁ¤¿ä¸Á ¹æÇâ¾Èº¯ÇÒ¶§...
+                //ì§ì§„>>ì§ì§„ì¼ë•Œ ìˆ˜ì •ìš”ë§ ë°©í–¥ì•ˆë³€í• ë•Œ...
 
-                if (destination.x > current.x) {//¿À¸¥
+                if (destination.x > current.x) {//ì˜¤ë¥¸
                     currentstate = CurrentState::Xplus;
                     modelForward = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
-                    currentDirection= XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);  // +X ¹æÇâ
+                    currentDirection= XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);  // +X ë°©í–¥
                 }
-                else if (destination.x < current.x) {//¿Ş
+                else if (destination.x < current.x) {//ì™¼
                     currentstate = CurrentState::Xminus;
                     modelForward = XMVectorSet(-1.0f, 0.0f, 0.0f, 0.0f);
-                    currentDirection= XMVectorSet(-1.0f, 0.0f, 0.0f, 0.0f); // -X ¹æÇâ
+                    currentDirection= XMVectorSet(-1.0f, 0.0f, 0.0f, 0.0f); // -X ë°©í–¥
                 }
-                else if (destination.z > current.z) {//µÚ
+                else if (destination.z > current.z) {//ë’¤
                     currentstate = CurrentState::Zplus;
                     modelForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-                    currentDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);  // +Z ¹æÇâ
+                    currentDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);  // +Z ë°©í–¥
                 }
-                else {//¾Õ
+                else {//ì•
                     currentstate = CurrentState::Zminus;
                     modelForward = XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f);
-                    currentDirection = XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f); // -Z ¹æÇâ
+                    currentDirection = XMVectorSet(0.0f, 0.0f, -1.0f, 0.0f); // -Z ë°©í–¥
                 }
-                accumulateRotate = currentDirection;//6.13 ÇöÀç ¹æÇâ ÃßÀûÇÏ±â À§ÇÑ º¤ÅÍ
-                //¹æÇâ Àç¼³Á¤..
-                if (previousstate == CurrentState::Zplus) {//ÀÌÀü »óÅÂ°¡ ¾Õ
-                    if (currentstate == CurrentState::Xplus) {//¿À¸¥
+                accumulateRotate = currentDirection;//6.13 í˜„ì¬ ë°©í–¥ ì¶”ì í•˜ê¸° ìœ„í•œ ë²¡í„°
+                //ë°©í–¥ ì¬ì„¤ì •..
+                if (previousstate == CurrentState::Zplus) {//ì´ì „ ìƒíƒœê°€ ì•
+                    if (currentstate == CurrentState::Xplus) {//ì˜¤ë¥¸
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(90.0f));
                         Radian = 90.0f;
                     }
-                    else if (currentstate == CurrentState::Xminus) {//¿Ş
+                    else if (currentstate == CurrentState::Xminus) {//ì™¼
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
                         Radian = -90.0f;
                     }
@@ -136,17 +136,17 @@ void Transform::calSRT(std::vector <Mainset>& Tree)
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(0.0f));
                         Radian = 0.0f;
                     }
-                    else {//µÚ
+                    else {//ë’¤
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
                         Radian = 180.0f;
                     }
                 }
-                else if (previousstate == CurrentState::Zminus) {//ÀÌÀü»óÅÂ°¡ µÚÀÏ¶§
-                    if (currentstate == CurrentState::Zplus) {//¾Õ
+                else if (previousstate == CurrentState::Zminus) {//ì´ì „ìƒíƒœê°€ ë’¤ì¼ë•Œ
+                    if (currentstate == CurrentState::Zplus) {//ì•
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
                         Radian = 180.0f;
                     }
-                    else if (currentstate == CurrentState::Xminus) {//¿Ş
+                    else if (currentstate == CurrentState::Xminus) {//ì™¼
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(90.0f));
                         Radian = 90.0f;
                     }
@@ -154,17 +154,17 @@ void Transform::calSRT(std::vector <Mainset>& Tree)
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(0.0f));
                         Radian = 0.0f;
                     }
-                    else {//¿À¸¥
+                    else {//ì˜¤ë¥¸
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
                         Radian = -90.0f;
                     }
                 }
-                else if (previousstate == CurrentState::Xplus) {//ÀÌÀü»óÅÂ°¡ ¿À¸¥ÀÏ¶§
-                    if (currentstate == CurrentState::Zplus) {//¾Õ
+                else if (previousstate == CurrentState::Xplus) {//ì´ì „ìƒíƒœê°€ ì˜¤ë¥¸ì¼ë•Œ
+                    if (currentstate == CurrentState::Zplus) {//ì•
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
                         Radian = -90.0f;
                     }
-                    else if (currentstate == CurrentState::Xminus) {//¿Ş
+                    else if (currentstate == CurrentState::Xminus) {//ì™¼
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
                         Radian = 180.0f;
                     }
@@ -172,17 +172,17 @@ void Transform::calSRT(std::vector <Mainset>& Tree)
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(0.0f));
                         Radian = 0.0f;
                     }
-                    else {//µÚ
+                    else {//ë’¤
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(90.0f));
                         Radian = 90.0f;
                     }
                 }
-                else {//ÀÌÀü»óÅÂ°¡ ¿ŞÀÏ¶§
-                    if (currentstate == CurrentState::Zplus) {//¾Õ
+                else {//ì´ì „ìƒíƒœê°€ ì™¼ì¼ë•Œ
+                    if (currentstate == CurrentState::Zplus) {//ì•
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(90.0f));
                         Radian = 90.0f;
                     }
-                    else if (currentstate == CurrentState::Xplus) {//¿À¸¥
+                    else if (currentstate == CurrentState::Xplus) {//ì˜¤ë¥¸
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(180.0f));
                         Radian = 180.0f;
                     }
@@ -190,53 +190,53 @@ void Transform::calSRT(std::vector <Mainset>& Tree)
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(0.0f));
                         Radian = 0.0f;
                     }
-                    else {//µÚ
+                    else {//ë’¤
                         rotationMatrix = XMMatrixRotationY(XMConvertToRadians(-90.0f));
                         Radian = -90.0f;
                     }
                 }
 
 
-                // ¿©±â±îÁö ¹æÇâ¼³Á¤
+                // ì—¬ê¸°ê¹Œì§€ ë°©í–¥ì„¤ì •
                 
 
                 //previousstate = currentstate;
 
-                //rotate¼³Á¤..
+                //rotateì„¤ì •..
 
             }
-            else {//²ÀÁöÁ¡À¸·Î °¡´ÂÁßÀÏ¶§
-                if (currentstate == CurrentState::Xplus) {//¿À¸¥
+            else {//ê¼­ì§€ì ìœ¼ë¡œ ê°€ëŠ”ì¤‘ì¼ë•Œ
+                if (currentstate == CurrentState::Xplus) {//ì˜¤ë¥¸
                     TransX = Speed;
                     TransZ = 0.0f;
                     current.x += Speed;
-                    if (current.x > destination.x) current.x = destination.x; // º¸Á¤
+                    if (current.x > destination.x) current.x = destination.x; // ë³´ì •
                 }
-                else if (currentstate == CurrentState::Xminus) {//¿Ş
+                else if (currentstate == CurrentState::Xminus) {//ì™¼
                     TransX = -Speed;
                     TransZ = 0.0f;
                     current.x -= Speed;
-                    if (current.x < destination.x) current.x = destination.x; // º¸Á¤
+                    if (current.x < destination.x) current.x = destination.x; // ë³´ì •
                 }
-                else if (currentstate == CurrentState::Zminus) {//µÚ
+                else if (currentstate == CurrentState::Zminus) {//ë’¤
                     TransX = 0.0f;
                     TransZ = -Speed;
                     current.z -= Speed;
-                    if (current.z < destination.z) current.z = destination.z; // º¸Á¤
+                    if (current.z < destination.z) current.z = destination.z; // ë³´ì •
                 }
-                else {//¾Õ
+                else {//ì•
                     TransX = 0.0f;
                     TransZ = Speed;
                     current.z += Speed;
-                    if (current.z > destination.z) current.z = destination.z; // º¸Á¤
+                    if (current.z > destination.z) current.z = destination.z; // ë³´ì •
                 }
             }
 
             XMMATRIX scaleMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-            // ±âÁ¸ À§Ä¡¸¦ ¿øÁ¡À¸·Î ÀÌµ¿ (ÀÌÀü ÀÌµ¿°ªÀ» ¹İ´ë·Î Àû¿ë)
+            // ê¸°ì¡´ ìœ„ì¹˜ë¥¼ ì›ì ìœ¼ë¡œ ì´ë™ (ì´ì „ ì´ë™ê°’ì„ ë°˜ëŒ€ë¡œ ì ìš©)
             XMMATRIX invTranslationMatrix = XMMatrixTranslation(-current.x, 0.0f, -current.z);            
 
-            // ¿ø·¡ À§Ä¡·Î ´Ù½Ã ÀÌµ¿
+            // ì›ë˜ ìœ„ì¹˜ë¡œ ë‹¤ì‹œ ì´ë™
             XMMATRIX translationMatrix = XMMatrixTranslation(current.x + TransX, 0.0f, current.z + TransZ);
 
             worldMatrix = scaleMatrix * invTranslationMatrix * rotationMatrix * translationMatrix;
@@ -245,18 +245,18 @@ void Transform::calSRT(std::vector <Mainset>& Tree)
             }//!!
 
         }
-        else {//º¯ÇÏ´Â ÁßÀÌ±ä ÇÑµ¥ µ¹¾Æ°¡¾ßÇÒ¶§..?
+        else {//ë³€í•˜ëŠ” ì¤‘ì´ê¸´ í•œë° ëŒì•„ê°€ì•¼í• ë•Œ..?
             if (walking == false) {
 
             }else{
             XMMATRIX scaleMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-            // ±âÁ¸ À§Ä¡¸¦ ¿øÁ¡À¸·Î ÀÌµ¿ (ÀÌÀü ÀÌµ¿°ªÀ» ¹İ´ë·Î Àû¿ë)
+            // ê¸°ì¡´ ìœ„ì¹˜ë¥¼ ì›ì ìœ¼ë¡œ ì´ë™ (ì´ì „ ì´ë™ê°’ì„ ë°˜ëŒ€ë¡œ ì ìš©)
             XMMATRIX invTranslationMatrix = XMMatrixTranslation(-current.x, 0.0f, -current.z);
 
-            // È¸Àü Àû¿ë
+            // íšŒì „ ì ìš©
             XMMATRIX rotationMatrix = XMMatrixRotationY(XMConvertToRadians(Radian));
 
-            // ¿ø·¡ À§Ä¡·Î ´Ù½Ã ÀÌµ¿
+            // ì›ë˜ ìœ„ì¹˜ë¡œ ë‹¤ì‹œ ì´ë™
             XMMATRIX translationMatrix = XMMatrixTranslation(current.x + TransX, 0.0f, current.z + TransZ);
 
             worldMatrix = scaleMatrix * invTranslationMatrix * rotationMatrix * translationMatrix;
@@ -268,9 +268,9 @@ void Transform::calSRT(std::vector <Mainset>& Tree)
         for (int i = 0; i < Tree.size(); i++) {
             //BoundingBox oldBox = Tree[i].Box;
 
-            //ÀÌµ¿ ÈÄ ¹Ù¿îµù ¹Ú½º ¾÷µ¥ÀÌÆ®
+            //ì´ë™ í›„ ë°”ìš´ë”© ë°•ìŠ¤ ì—…ë°ì´íŠ¸
             XMVECTOR newCenter = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Center), worldMatrix);
-            XMVECTOR newExtents = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Extents), scaleMatrix);  // Å©±â º¯È¯
+            XMVECTOR newExtents = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Extents), scaleMatrix);  // í¬ê¸° ë³€í™˜
 
             XMStoreFloat3(&Tree[i].Box.Center, newCenter);
             XMStoreFloat3(&Tree[i].Box.Extents, newExtents);
@@ -326,7 +326,7 @@ void Transform::finishedRotate(bool isturnning)
     rotatedone = isturnning;
 }
 
-//ÃÊ±â°ª ¼³Á¤
+//ì´ˆê¸°ê°’ ì„¤ì •
 void Transform::defineCurrent()
 {
 
@@ -334,10 +334,10 @@ void Transform::defineCurrent()
     previousstate = CurrentState::Xplus;
     currentstate = CurrentState::Xplus;
     
-    //ÀÓÀÇ·Î ½ÃÀÛÁ¡ ¼³Á¤
+    //ì„ì˜ë¡œ ì‹œì‘ì  ì„¤ì •
     current.x = 18;
     current.z=-19;
-    //ÀÓÀÇÀÇ·Î µµÂøÁ¡ ¼³Á¤
+    //ì„ì˜ì˜ë¡œ ë„ì°©ì  ì„¤ì •
     destination.x = 26;
     destination.z = -19;
 }
@@ -356,14 +356,14 @@ void Transform::ComeOnMe(std::vector <Mainset>& Tree)
 {
     
     XMVECTOR playerPos = m_cam->getMyPosition();    
-    // ÀÌµ¿ ¹æÇâ °è»ê (Á¤±ÔÈ­)
+    // ì´ë™ ë°©í–¥ ê³„ì‚° (ì •ê·œí™”)
     XMVECTOR direction = XMVectorSubtract(playerPos, objectPos);
     direction = XMVector3Normalize(direction);
-    direction = XMVectorScale(direction, 0.1f); // ¹æÇâ º¤ÅÍ Å©±â 0.1¹è
-    direction = XMVectorSetY(direction, 0.0f); // y ¼ººĞÀ» 0À¸·Î ¼³Á¤
-    direction = XMVectorSetW(direction, 0.0f); // w º¸Á¤
+    direction = XMVectorScale(direction, 0.1f); // ë°©í–¥ ë²¡í„° í¬ê¸° 0.1ë°°
+    direction = XMVectorSetY(direction, 0.0f); // y ì„±ë¶„ì„ 0ìœ¼ë¡œ ì„¤ì •
+    direction = XMVectorSetW(direction, 0.0f); // w ë³´ì •
 
-    XMVECTOR tempObjectPos;//ÀÌÀüÁÂÇ¥ ÀúÀå
+    XMVECTOR tempObjectPos;//ì´ì „ì¢Œí‘œ ì €ì¥
     XMVECTOR testObjectPosX;
     XMVECTOR testObjectPosZ;
     tempObjectPos = objectPos;
@@ -372,16 +372,16 @@ void Transform::ComeOnMe(std::vector <Mainset>& Tree)
 
     float speed = 1.0f;
     
-    // 1) ¼Ó·Â º¤ÅÍ(µ¨Å¸) °è»ê
+    // 1) ì†ë ¥ ë²¡í„°(ë¸íƒ€) ê³„ì‚°
     XMVECTOR delta = XMVectorScale(direction, speed);
 
-    // 2) µ¨Å¸ÀÇ X, Z ¼ººĞ ÃßÃâ
+    // 2) ë¸íƒ€ì˜ X, Z ì„±ë¶„ ì¶”ì¶œ
     float dx = XMVectorGetX(delta);
     float dz = XMVectorGetZ(delta);
  
-    //»õ·Î¿îÁÂÇ¥
+    //ìƒˆë¡œìš´ì¢Œí‘œ
     objectPos = XMVectorAdd(objectPos, XMVectorScale(direction, speed));
-    // w °ª º¸Á¤
+    // w ê°’ ë³´ì •
     objectPos = XMVectorSetW(objectPos, 1.0f);
 
     XMFLOAT3 newPosition;
@@ -389,7 +389,7 @@ void Transform::ComeOnMe(std::vector <Mainset>& Tree)
 
     collisionDetected = false;
 
-    for (auto& objectBox : otherBox)//±æ,º®Åë°ú x
+    for (auto& objectBox : otherBox)//ê¸¸,ë²½í†µê³¼ x
     {
         if (CheckCollision(objectBox.get(), newPosition))
         {            
@@ -401,7 +401,7 @@ void Transform::ComeOnMe(std::vector <Mainset>& Tree)
     float dirX = XMVectorGetX(direction);
     float dirZ = XMVectorGetZ(direction);
 
-    //ÀÌµ¿ÇßÀ»¶§ º®¿¡ ¾È¸·È÷´Â °÷À¸·Î 
+    //ì´ë™í–ˆì„ë•Œ ë²½ì— ì•ˆë§‰íˆëŠ” ê³³ìœ¼ë¡œ 
     if (dirX >= 0) {
         testObjectPosX = XMVectorSetX(testObjectPosX, XMVectorGetX(testObjectPosX) + 0.10f);
         isXplus = true;
@@ -430,13 +430,13 @@ void Transform::ComeOnMe(std::vector <Mainset>& Tree)
     XMStoreFloat3(&nowPositionZ, testObjectPosZ);
 
     if (collisionDetected) {
-        objectPos = tempObjectPos;//ÀÌÀü°ªÀ¸·Î º¹±Í
-        XMStoreFloat3(&position, objectPos);//Ãæµ¹ÀÌÀü°ª Çª½¬        
+        objectPos = tempObjectPos;//ì´ì „ê°’ìœ¼ë¡œ ë³µê·€
+        XMStoreFloat3(&position, objectPos);//ì¶©ëŒì´ì „ê°’ í‘¸ì‰¬        
 
-        //xÃà¿¡´ëÇÏ¿©
+        //xì¶•ì—ëŒ€í•˜ì—¬
         XMFLOAT3 nowPosition;
         XMStoreFloat3(&nowPosition, testObjectPosX);
-        for (auto& objectBox : otherBox)//±æ,º®Åë°ú x
+        for (auto& objectBox : otherBox)//ê¸¸,ë²½í†µê³¼ x
         {
             if (CheckCollision(objectBox.get(), nowPosition))
             {                
@@ -456,9 +456,9 @@ void Transform::ComeOnMe(std::vector <Mainset>& Tree)
         
         direction = XMVectorSubtract(modifiedPos, objectPos);
         direction = XMVector3Normalize(direction);
-        direction = XMVectorScale(direction, 0.1f); // ¹æÇâ º¤ÅÍ Å©±â 0.1¹è
-        direction = XMVectorSetW(direction, 0.0f); // w º¸Á¤
-        direction = XMVectorSetY(direction, 0.0f); // y ¼ººĞÀ» 0À¸·Î ¼³Á¤        
+        direction = XMVectorScale(direction, 0.1f); // ë°©í–¥ ë²¡í„° í¬ê¸° 0.1ë°°
+        direction = XMVectorSetW(direction, 0.0f); // w ë³´ì •
+        direction = XMVectorSetY(direction, 0.0f); // y ì„±ë¶„ì„ 0ìœ¼ë¡œ ì„¤ì •        
 
         worldMatrix = XMMatrixTranslationFromVector(direction);
         
@@ -466,9 +466,9 @@ void Transform::ComeOnMe(std::vector <Mainset>& Tree)
 
         XMMATRIX scaleMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);
         for (int i = 0; i < Tree.size(); i++) {            
-            //ÀÌµ¿ ÈÄ ¹Ù¿îµù ¹Ú½º ¾÷µ¥ÀÌÆ®
+            //ì´ë™ í›„ ë°”ìš´ë”© ë°•ìŠ¤ ì—…ë°ì´íŠ¸
             XMVECTOR newCenter = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Center), worldMatrix);
-            XMVECTOR newExtents = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Extents), scaleMatrix);  // Å©±â º¯È¯
+            XMVECTOR newExtents = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Extents), scaleMatrix);  // í¬ê¸° ë³€í™˜
 
             XMStoreFloat3(&Tree[i].Box.Center, newCenter);
             XMStoreFloat3(&Tree[i].Box.Extents, newExtents);
@@ -476,57 +476,57 @@ void Transform::ComeOnMe(std::vector <Mainset>& Tree)
 
         setRange(Tree);
     }
-    else {//º®¿¡ ¾È¸·ÇûÀ»¶§
+    else {//ë²½ì— ì•ˆë§‰í˜”ì„ë•Œ
 
-        // ¿ùµå ¸ÅÆ®¸¯½º °»½Å (XMMATRIX·Î Á÷Á¢ °è»ê)             
-        // 1) ÇÃ·¹ÀÌ¾î ¹æÇâ º¤ÅÍ(XZ Æò¸é Åõ¿µ ÈÄ Á¤±ÔÈ­)
+        // ì›”ë“œ ë§¤íŠ¸ë¦­ìŠ¤ ê°±ì‹  (XMMATRIXë¡œ ì§ì ‘ ê³„ì‚°)             
+        // 1) í”Œë ˆì´ì–´ ë°©í–¥ ë²¡í„°(XZ í‰ë©´ íˆ¬ì˜ í›„ ì •ê·œí™”)
         XMVECTOR toPlayer = XMVectorSubtract(playerPos, objectPos);
-        toPlayer = XMVectorSetY(toPlayer, 0.0f); // ¼öÆò È¸Àü¸¸ °í·Á
+        toPlayer = XMVectorSetY(toPlayer, 0.0f); // ìˆ˜í‰ íšŒì „ë§Œ ê³ ë ¤
         toPlayer = XMVector3Normalize(toPlayer);
-        //ÇÃ·¹ÀÌ¾î º¸´Â¹æÇâ ¹İ´ë¹æÇâ 6.11
+        //í”Œë ˆì´ì–´ ë³´ëŠ”ë°©í–¥ ë°˜ëŒ€ë°©í–¥ 6.11
         fromawayPlayerDir = -toPlayer;
         
 
-        // 3) °¢µµ °è»ê
+        // 3) ê°ë„ ê³„ì‚°
         float cosTheta = XMVectorGetX(XMVector3Dot(modelForward, toPlayer));
-        cosTheta = std::max(-1.0f, std::min(cosTheta, 1.0f)); // Å¬·¥ÇÎ
+        cosTheta = std::max(-1.0f, std::min(cosTheta, 1.0f)); // í´ë¨í•‘
 
-        // 4) È¸Àü ¹æÇâ(ºÎÈ£) °áÁ¤
+        // 4) íšŒì „ ë°©í–¥(ë¶€í˜¸) ê²°ì •
         XMVECTOR crossV = XMVector3Cross(modelForward, toPlayer);
         float sign = (XMVectorGetY(crossV) >= 0.0f) ? +1.0f : -1.0f;
 
-        // 5) ÃÖÁ¾ yaw È¸Àü°ª (¶óµğ¾È)
+        // 5) ìµœì¢… yaw íšŒì „ê°’ (ë¼ë””ì•ˆ)
         float yaw = sign * acosf(cosTheta);
 
-        // 6) È¸Àü Çà·Ä »ı¼º
+        // 6) íšŒì „ í–‰ë ¬ ìƒì„±
         XMMATRIX R = XMMatrixRotationY(yaw);
         
-        //ÇöÀç ¸ó½ºÅÍÀÇ ¹æÇâÀ» ¾Ë±âÀ§ÇÑ ´©Àûº¤ÅÍ
+        //í˜„ì¬ ëª¬ìŠ¤í„°ì˜ ë°©í–¥ì„ ì•Œê¸°ìœ„í•œ ëˆ„ì ë²¡í„°
         accumulateRotate = XMVector3TransformNormal(accumulateRotate, R);
         
-        // 2) ±âÁ¸ modelForward´Â ÀÌÁ¦ ¹«½ÃÇÏ°í
-//    °ğÀå toPlayer·Î µ¤¾î¾´´Ù!
+        // 2) ê¸°ì¡´ modelForwardëŠ” ì´ì œ ë¬´ì‹œí•˜ê³ 
+//    ê³§ì¥ toPlayerë¡œ ë®ì–´ì“´ë‹¤!
         modelForward = toPlayer;
         
-        //¿©±â¼­
+        //ì—¬ê¸°ì„œ
         XMMATRIX scaleMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);
-        // ±âÁ¸ À§Ä¡¸¦ ¿øÁ¡À¸·Î ÀÌµ¿ (ÀÌÀü ÀÌµ¿°ªÀ» ¹İ´ë·Î Àû¿ë)
+        // ê¸°ì¡´ ìœ„ì¹˜ë¥¼ ì›ì ìœ¼ë¡œ ì´ë™ (ì´ì „ ì´ë™ê°’ì„ ë°˜ëŒ€ë¡œ ì ìš©)
         XMMATRIX invTranslationMatrix = XMMatrixTranslation(-XMVectorGetX(tempObjectPos), 0.0f, -XMVectorGetZ(tempObjectPos));       
         
         XMMATRIX rotationMatrix = XMMatrixRotationY(prevYaw);
         
-        // ¿ø·¡ À§Ä¡·Î ´Ù½Ã ÀÌµ¿
+        // ì›ë˜ ìœ„ì¹˜ë¡œ ë‹¤ì‹œ ì´ë™
         XMMATRIX translationMatrix = XMMatrixTranslation(XMVectorGetX(tempObjectPos) + dx, 0.0f, XMVectorGetZ(tempObjectPos)+dz);
 
         worldMatrix = scaleMatrix * invTranslationMatrix * R * translationMatrix;        
         
-        //tree °»½Å name->setRange(tree)        
+        //tree ê°±ì‹  name->setRange(tree)        
 
         for (int i = 0; i < Tree.size(); i++) {    
 
-            //ÀÌµ¿ ÈÄ ¹Ù¿îµù ¹Ú½º ¾÷µ¥ÀÌÆ®
+            //ì´ë™ í›„ ë°”ìš´ë”© ë°•ìŠ¤ ì—…ë°ì´íŠ¸
             XMVECTOR newCenter = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Center), worldMatrix);
-            XMVECTOR newExtents = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Extents), scaleMatrix);// Å©±â º¯È¯
+            XMVECTOR newExtents = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Extents), scaleMatrix);// í¬ê¸° ë³€í™˜
             XMStoreFloat3(&Tree[i].Box.Center, newCenter);
             XMStoreFloat3(&Tree[i].Box.Extents, newExtents);
         }
@@ -536,20 +536,20 @@ void Transform::ComeOnMe(std::vector <Mainset>& Tree)
     
 }
 
-//¸ó½ºÅÍÀÇ Ã¹ÇÁ·¹ÀÓ Á¤Á¡Á¤º¸·Î¸¸ Ãæµ¹Ã¼ ¼³Á¤ÇÑ´Ù.
-//ÀÌÈÄ °è»êÇÒ¶§µµ °»½ÅµÈ Ã¹ÇÁ·¹ÀÓ Ãæµ¹Ã¼·Î¸¸ °è»êÇÑ´Ù.
+//ëª¬ìŠ¤í„°ì˜ ì²«í”„ë ˆì„ ì •ì ì •ë³´ë¡œë§Œ ì¶©ëŒì²´ ì„¤ì •í•œë‹¤.
+//ì´í›„ ê³„ì‚°í• ë•Œë„ ê°±ì‹ ëœ ì²«í”„ë ˆì„ ì¶©ëŒì²´ë¡œë§Œ ê³„ì‚°í•œë‹¤.
 void Transform::setRange(std::vector<Mainset>& Tree)
 {
     if (Tree.empty()) return;
 
     range = Tree[0].Box;
 
-    // ³ª¸ÓÁö ¿ä¼Òµé°ú º´ÇÕ
+    // ë‚˜ë¨¸ì§€ ìš”ì†Œë“¤ê³¼ ë³‘í•©
     for (size_t i = 1; i < Tree.size(); ++i)
     {
         DirectX::BoundingBox::CreateMerged(range, range, Tree[i].Box);
     }
-    // º´ÇÕµÈ BoundingBox È®Àå
+    // ë³‘í•©ëœ BoundingBox í™•ì¥
     range.Extents.x += 6.0f;
     range.Extents.y += 6.0f;
     range.Extents.z += 6.0f;
@@ -572,15 +572,15 @@ Camera* Transform::getcampointer()
 
 void Transform::getBack(std::vector <Mainset>& Tree)
 {
-    //¸ó½ºÅÍ°¡ µÇµ¹¾Æ°¥¶§  changeOccurePoint¸¦ º¸¸é¼­ µ¹¾Æ°¡¾ßÇÏ¹Ç·Î
-    //ÃÖÃÊ 1È¸ È¸Àü ÇØÁØ´Ù
+    //ëª¬ìŠ¤í„°ê°€ ë˜ëŒì•„ê°ˆë•Œ  changeOccurePointë¥¼ ë³´ë©´ì„œ ëŒì•„ê°€ì•¼í•˜ë¯€ë¡œ
+    //ìµœì´ˆ 1íšŒ íšŒì „ í•´ì¤€ë‹¤
     if (firstGetBack) {
         firstGetBack = false;
         getBackOnce();
         return;
    }
     
-    if (!isSteped) {//Ã¼Å©Æ÷ÀÎÆ®·Î µÇµ¹¾Æ°¡´ÂÁßÀÎ°¡?
+    if (!isSteped) {//ì²´í¬í¬ì¸íŠ¸ë¡œ ë˜ëŒì•„ê°€ëŠ”ì¤‘ì¸ê°€?
         XMFLOAT3 stepfloat = footprint.top();
         stepvec = XMLoadFloat3(&stepfloat);
         footprint.pop();
@@ -588,24 +588,24 @@ void Transform::getBack(std::vector <Mainset>& Tree)
         isSteped = true;
     }
     
-    // ÀÌµ¿ ¹æÇâ °è»ê (Á¤±ÔÈ­)
+    // ì´ë™ ë°©í–¥ ê³„ì‚° (ì •ê·œí™”)
     XMVECTOR direction = XMVectorSubtract(stepvec, objectPos);
     direction = XMVector3Normalize(direction);
-    direction = XMVectorScale(direction, 0.1f); // ¹æÇâ º¤ÅÍ Å©±â 0.1¹è
-    direction = XMVectorSetW(direction, 0.0f); // w º¸Á¤
-    direction = XMVectorSetY(direction, 0.0f); // y ¼ººĞÀ» 0À¸·Î ¼³Á¤
+    direction = XMVectorScale(direction, 0.1f); // ë°©í–¥ ë²¡í„° í¬ê¸° 0.1ë°°
+    direction = XMVectorSetW(direction, 0.0f); // w ë³´ì •
+    direction = XMVectorSetY(direction, 0.0f); // y ì„±ë¶„ì„ 0ìœ¼ë¡œ ì„¤ì •
 
 
     float speed = 1.0f;
     objectPos = XMVectorAdd(objectPos, XMVectorScale(direction, speed));
-    // w °ª º¸Á¤
+    // w ê°’ ë³´ì •
     objectPos = XMVectorSetW(objectPos, 1.0f);
 
-    constexpr float epsilon = 0.1f; // ¿øÇÏ´Â ¿ÀÂ÷ ¹üÀ§ ¼³Á¤
+    constexpr float epsilon = 0.1f; // ì›í•˜ëŠ” ì˜¤ì°¨ ë²”ìœ„ ì„¤ì •
     XMVECTOR vEpsilon = XMVectorReplicate(epsilon);
     
     if (XMVector3NearEqual(objectPos, stepvec, vEpsilon)) {
-        objectPos = stepvec; // Á¤È®ÇÑ À§Ä¡·Î º¸Á¤        
+        objectPos = stepvec; // ì •í™•í•œ ìœ„ì¹˜ë¡œ ë³´ì •        
         isSteped = false;
     }      
     
@@ -618,9 +618,9 @@ void Transform::getBack(std::vector <Mainset>& Tree)
     XMMATRIX scaleMatrix = XMMatrixScaling(1.0f, 1.0f, 1.0f);      
 
     for (int i = 0; i < Tree.size(); i++) {
-       //ÀÌµ¿ ÈÄ ¹Ù¿îµù ¹Ú½º ¾÷µ¥ÀÌÆ®
+       //ì´ë™ í›„ ë°”ìš´ë”© ë°•ìŠ¤ ì—…ë°ì´íŠ¸
         XMVECTOR newCenter = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Center), worldMatrix);
-        XMVECTOR newExtents = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Extents), scaleMatrix);  // Å©±â º¯È¯
+        XMVECTOR newExtents = XMVector3Transform(XMLoadFloat3(&Tree[i].Box.Extents), scaleMatrix);  // í¬ê¸° ë³€í™˜
 
         XMStoreFloat3(&Tree[i].Box.Center, newCenter);
         XMStoreFloat3(&Tree[i].Box.Extents, newExtents);
@@ -628,7 +628,7 @@ void Transform::getBack(std::vector <Mainset>& Tree)
     setRange(Tree);
 }
 
-//º® Ãæµ¹Ã¼ ÀúÀå
+//ë²½ ì¶©ëŒì²´ ì €ì¥
 void Transform::setMapBox(std::vector<std::reference_wrapper<BoundingBox>> box)
 {
     otherBox = box;
@@ -636,12 +636,12 @@ void Transform::setMapBox(std::vector<std::reference_wrapper<BoundingBox>> box)
 
 bool Transform::CheckCollision(const BoundingBox& checkbox, const XMFLOAT3& newPosition)
 {
-    // »õ·Î¿î À§Ä¡·Î Ä«¸Ş¶óÀÇ ¹Ù¿îµù ¹Ú½º¸¦ ÀÌµ¿
+    // ìƒˆë¡œìš´ ìœ„ì¹˜ë¡œ ì¹´ë©”ë¼ì˜ ë°”ìš´ë”© ë°•ìŠ¤ë¥¼ ì´ë™
     BoundingBox newCameraBox;
     newCameraBox.Center = newPosition;
     newCameraBox.Extents = XMFLOAT3(0.5f, 0.5f, 0.5f);//cameraBoundingBox.Extents;
 
-    // »õ·Î¿î À§Ä¡¿¡¼­ Ãæµ¹ ¿©ºÎ È®ÀÎ
+    // ìƒˆë¡œìš´ ìœ„ì¹˜ì—ì„œ ì¶©ëŒ ì—¬ë¶€ í™•ì¸
     return newCameraBox.Intersects(checkbox);
 }
 
@@ -663,29 +663,29 @@ XMMATRIX Transform::getbase()
 void Transform::getBackOnce()
 {    
     //613
-    // ´©ÀûµÈ ¹æÇâ º¤ÅÍ¿Í ¸ñÇ¥ ¹æÇâ Á¤±ÔÈ­
+    // ëˆ„ì ëœ ë°©í–¥ ë²¡í„°ì™€ ëª©í‘œ ë°©í–¥ ì •ê·œí™”
     XMVECTOR vFrom = XMVector3Normalize(accumulateRotate);
     XMVECTOR vTo = XMVector3Normalize(changeOccurePoint);
 
-    // È¸ÀüÃà°ú È¸Àü°¢
+    // íšŒì „ì¶•ê³¼ íšŒì „ê°
     XMVECTOR axis = XMVector3Normalize(XMVector3Cross(vFrom, vTo));
     float angle = acosf(XMVectorGetX(XMVector3Dot(vFrom, vTo)));
 
-    // È¸Àü Çà·Ä
+    // íšŒì „ í–‰ë ¬
     XMMATRIX rotMatrix = XMMatrixRotationAxis(axis, angle);
-    accumulateRotate = XMVector3TransformNormal(accumulateRotate, rotMatrix);//´©Àû °»½Å
+    accumulateRotate = XMVector3TransformNormal(accumulateRotate, rotMatrix);//ëˆ„ì  ê°±ì‹ 
     //______________   
     
-    // ½ºÄÉÀÏ °ª (¿øÇÏ´Â °ªÀ¸·Î ¼³Á¤)
+    // ìŠ¤ì¼€ì¼ ê°’ (ì›í•˜ëŠ” ê°’ìœ¼ë¡œ ì„¤ì •)
     XMFLOAT3 scaleValue = XMFLOAT3(1.0f, 1.0f, 1.0f);
     XMMATRIX scaleMatrix = XMMatrixScaling(scaleValue.x, scaleValue.y, scaleValue.z);
 
-    // ÇöÀç objectPos °ªÀ¸·Î ÀÌµ¿Çà·Ä
+    // í˜„ì¬ objectPos ê°’ìœ¼ë¡œ ì´ë™í–‰ë ¬
     XMMATRIX translationMatrix = XMMatrixTranslationFromVector(objectPos);
 
-    // objectPosÀÇ ¿ªÇà·Ä (À½¼ö ÀÌµ¿)
+    // objectPosì˜ ì—­í–‰ë ¬ (ìŒìˆ˜ ì´ë™)
     XMMATRIX invTranslationMatrix = XMMatrixTranslationFromVector(-objectPos);
 
-    //È¸Àü¸¸ ÇÏ´Â Çà·Ä
+    //íšŒì „ë§Œ í•˜ëŠ” í–‰ë ¬
     worldMatrix = scaleMatrix * invTranslationMatrix * rotMatrix * translationMatrix;
 }
