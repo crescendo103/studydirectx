@@ -13,7 +13,7 @@
 #include "PathFinder.h"
 #include <stack> 
 #include <algorithm>   // std::clamp
-#include <cmath>       // std::acos, std::atan2f µî
+#include <cmath>       // std::acos, std::atan2f ë“±
 
 
 using namespace DirectX;
@@ -22,10 +22,10 @@ using namespace DX;
 using index_t = uint16_t;
 
 enum class CurrentState {
-	Xminus,//¿Ş
-	Zminus,//µÚ
-	Xplus,//¿À¸¥
-	Zplus//¾Õ
+	Xminus,//ì™¼
+	Zminus,//ë’¤
+	Xplus,//ì˜¤ë¥¸
+	Zplus//ì•
 };
 
 class Camera;
@@ -35,9 +35,9 @@ class Transform
 public:
 
 	/*
-	// static ÇÔ¼ö·Î ¼±¾ğ
+	// static í•¨ìˆ˜ë¡œ ì„ ì–¸
 	static Transform& GetInstance() {
-		if (instance == nullptr) { // nullptr »ç¿ë ±ÇÀå
+		if (instance == nullptr) { // nullptr ì‚¬ìš© ê¶Œì¥
 			instance = new Transform();
 		}
 		return *instance;
@@ -74,7 +74,7 @@ public:
 	void getBackOnce();
 
 public:
-	//static Transform* instance; // Æ÷ÀÎÅÍ·Î º¯°æ
+	//static Transform* instance; // í¬ì¸í„°ë¡œ ë³€ê²½
 	Transform() {
 		srand(time(nullptr));
 		crashXfront = false;
@@ -87,8 +87,8 @@ public:
 		states.push_back(CurrentState::Zminus);
 		states.push_back(CurrentState::Zplus);
 
-	} // private »ı¼ºÀÚ
-	// ¼Ò¸êÀÚ´Â privateÀ¸·Î ¸¸µé°í, µ¿Àû ÇÒ´çµÈ ÀÎ½ºÅÏ½º¸¦ ÇØÁ¦ÇÒ ¼ö ÀÖµµ·Ï ÇÑ´Ù.
+	} // private ìƒì„±ì
+	// ì†Œë©¸ìëŠ” privateìœ¼ë¡œ ë§Œë“¤ê³ , ë™ì  í• ë‹¹ëœ ì¸ìŠ¤í„´ìŠ¤ë¥¼ í•´ì œí•  ìˆ˜ ìˆë„ë¡ í•œë‹¤.
 	~Transform() {}
 
 	float ScaleX = 1.0f;
@@ -166,8 +166,8 @@ public:
 	bool firstGetBack = true;
 	bool bArrivedAtCheckpoint = true;
 
-	XMVECTOR currentDirection;//±æ °¡´ø ¹æÇâ
-	XMVECTOR fromawayPlayerDir;//ÇÃ·¹ÀÌ¾î ¹İ´ë¹æÇâ
-	XMVECTOR accumulateRotate;//¹æÇâ ´©ÀûÇØ¼­ ÇöÀç ¹æÇâ °è»ê
+	XMVECTOR currentDirection;//ê¸¸ ê°€ë˜ ë°©í–¥
+	XMVECTOR fromawayPlayerDir;//í”Œë ˆì´ì–´ ë°˜ëŒ€ë°©í–¥
+	XMVECTOR accumulateRotate;//ë°©í–¥ ëˆ„ì í•´ì„œ í˜„ì¬ ë°©í–¥ ê³„ì‚°
 };
 
