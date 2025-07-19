@@ -139,7 +139,7 @@ private:
     BYTE* mMappedDataUI = nullptr;
     BYTE* mMappedDataW = nullptr;
     Camera* cam;
-    fps* fpsInstance; // fps °´Ã¼ ÀúÀå
+    fps* fpsInstance; // fps ê°ì²´ ì €ì¥
     /*
     ComPtr<ID3D12Resource> materialBuffer;
     UINT materialBufferSize;
@@ -162,8 +162,8 @@ private:
 
 
     int facmanNum;
-    int frameCount = 0;  // ÇÁ·¹ÀÓ Ä«¿îÅÍ º¯¼ö
-    const int frameDelay = 3;  // ¸î ÇÁ·¹ÀÓ¸¶´Ù º¯°æÇÒÁö ¼³Á¤
+    int frameCount = 0;  // í”„ë ˆì„ ì¹´ìš´í„° ë³€ìˆ˜
+    const int frameDelay = 3;  // ëª‡ í”„ë ˆì„ë§ˆë‹¤ ë³€ê²½í• ì§€ ì„¤ì •
     int pathCount = 0;
     const int pathDelay = 5000;
     std::vector<RenderManager> key;
@@ -199,7 +199,7 @@ private:
     XMFLOAT2 whatGem = { 0.0f, 0.0f };
     bool shouldUI = false;
 
-    ComPtr<ID3D12Resource> CameraWorldBuffer = nullptr; // ±âº»°ªÀ¸·Î nullptr ¼³Á¤
+    ComPtr<ID3D12Resource> CameraWorldBuffer = nullptr; // ê¸°ë³¸ê°’ìœ¼ë¡œ nullptr ì„¤ì •
     D3D12_GPU_VIRTUAL_ADDRESS CameraWorldBufferAddress = 0;
     std::vector<RenderManager> Lamp;
 
@@ -236,8 +236,8 @@ private:
 
 
     std::vector<RenderManager> oneSkyBox;
-    ComPtr<ID3D12Resource> mSkyboxCB;      // ¸®¼Ò½º
-    UINT8* mMappedSkyboxData = nullptr;    // ¸ÅÇÎµÈ Æ÷ÀÎÅÍ
+    ComPtr<ID3D12Resource> mSkyboxCB;      // ë¦¬ì†ŒìŠ¤
+    UINT8* mMappedSkyboxData = nullptr;    // ë§¤í•‘ëœ í¬ì¸í„°
     ComPtr<ID3D12RootSignature> m_skyboxRootSignature;
     ComPtr<ID3D12PipelineState> m_skyboxPSO;
 
