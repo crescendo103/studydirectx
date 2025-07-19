@@ -1,23 +1,23 @@
 // ========== UI.hlsl ==========
 
-// ÅØ½ºÃ³ ¹× »ùÇÃ·¯
+// í…ìŠ¤ì²˜ ë° ìƒ˜í”ŒëŸ¬
 Texture2D gUITexture : register(t0);
 SamplerState gSampler : register(s0);
 
-// »ó¼ö ¹öÆÛ (Á÷±³Åõ¿µ Çà·Ä)
+// ìƒìˆ˜ ë²„í¼ (ì§êµíˆ¬ì˜ í–‰ë ¬)
 cbuffer CB : register(b0)
 {
     float4x4 gWVP;
 };
 
-// Vertex Shader ÀÔ·Â
+// Vertex Shader ì…ë ¥
 struct VSInput
 {
     float3 position : POSITION;
     float2 texcoord : TEXCOORD;
 };
 
-// Vertex Shader Ãâ·Â
+// Vertex Shader ì¶œë ¥
 struct VSOutput
 {
     float4 position : SV_POSITION;
@@ -28,7 +28,7 @@ struct VSOutput
 VSOutput VSMain(VSInput input)
 {
     VSOutput output;
-    output.position = mul(float4(input.position, 1.0f), gWVP); // WVP Àû¿ë
+    output.position = mul(float4(input.position, 1.0f), gWVP); // WVP ì ìš©
     output.texcoord = input.texcoord;
     return output;
 }
