@@ -389,7 +389,7 @@ namespace DX
                 InFile.ignore(1000, L'\n');
             }
 
-            if (positions.empty())//¹İº¹¹® ¹Û
+            if (positions.empty())//ë°˜ë³µë¬¸ ë°–
                 return E_FAIL;
 
             // Cleanup
@@ -676,8 +676,8 @@ namespace DX
             
             bool bSpecular;
             bool bEmissive;
-            //Ãß°¡
-            bool bUseTexture = false;// ÅØ½ºÃ³ »ç¿ë ¿©ºÎ
+            //ì¶”ê°€
+            bool bUseTexture = false;// í…ìŠ¤ì²˜ ì‚¬ìš© ì—¬ë¶€
             
 
             wchar_t strName[MAX_PATH];
@@ -697,7 +697,7 @@ namespace DX
                 
                 bSpecular(false),
                 bEmissive(false),
-                bUseTexture(false), // ±âº»°ªÀ» false·Î ¼³Á¤
+                bUseTexture(false), // ê¸°ë³¸ê°’ì„ falseë¡œ ì„¤ì •
                 strName{},
                 strTexture{},
                 strNormalTexture{},
@@ -709,24 +709,24 @@ namespace DX
         };*/
         
             struct alignas(16) Material {
-            DirectX::XMFLOAT3 vAmbient; // 12¹ÙÀÌÆ®
-            float padding1;            // 4¹ÙÀÌÆ® ÆĞµù
-            DirectX::XMFLOAT3 vDiffuse; // 12¹ÙÀÌÆ®
-            float padding2;            // 4¹ÙÀÌÆ® ÆĞµù
-            DirectX::XMFLOAT3 vSpecular; // 12¹ÙÀÌÆ®
-            float padding3;            // 4¹ÙÀÌÆ® ÆĞµù
-            DirectX::XMFLOAT3 vEmissive; // 12¹ÙÀÌÆ®
-            float padding4;            // 4¹ÙÀÌÆ® ÆĞµù
+            DirectX::XMFLOAT3 vAmbient; // 12ë°”ì´íŠ¸
+            float padding1;            // 4ë°”ì´íŠ¸ íŒ¨ë”©
+            DirectX::XMFLOAT3 vDiffuse; // 12ë°”ì´íŠ¸
+            float padding2;            // 4ë°”ì´íŠ¸ íŒ¨ë”©
+            DirectX::XMFLOAT3 vSpecular; // 12ë°”ì´íŠ¸
+            float padding3;            // 4ë°”ì´íŠ¸ íŒ¨ë”©
+            DirectX::XMFLOAT3 vEmissive; // 12ë°”ì´íŠ¸
+            float padding4;            // 4ë°”ì´íŠ¸ íŒ¨ë”©
 
-            uint32_t nShininess;       // 4¹ÙÀÌÆ® °ªÀÌ»ó
-            float fAlpha;              // 4¹ÙÀÌÆ®
-            int bSpecular;             // 4¹ÙÀÌÆ® °ªÀÌ»ó
-            int bEmissive;             // 4¹ÙÀÌÆ®
+            uint32_t nShininess;       // 4ë°”ì´íŠ¸ ê°’ì´ìƒ
+            float fAlpha;              // 4ë°”ì´íŠ¸
+            int bSpecular;             // 4ë°”ì´íŠ¸ ê°’ì´ìƒ
+            int bEmissive;             // 4ë°”ì´íŠ¸
 
-            int bUseTexture;           // 4¹ÙÀÌÆ®
-            int padding5;              // 4¹ÙÀÌÆ® ÆĞµù
+            int bUseTexture;           // 4ë°”ì´íŠ¸
+            int padding5;              // 4ë°”ì´íŠ¸ íŒ¨ë”©
 
-            wchar_t strName[MAX_PATH];           // ¹®ÀÚ¿­ µ¥ÀÌÅÍ
+            wchar_t strName[MAX_PATH];           // ë¬¸ìì—´ ë°ì´í„°
             wchar_t strTexture[MAX_PATH];
             wchar_t strNormalTexture[MAX_PATH];
             wchar_t strSpecularTexture[MAX_PATH];
@@ -742,7 +742,7 @@ namespace DX
                 fAlpha(1.f),
                 bSpecular(0),
                 bEmissive(0),
-                bUseTexture(0),//0 <<ÅØ½ºÃÄ »ç¿ë¾ÈÇÔ 1<<»ç¿ëÇÔ
+                bUseTexture(0),//0 <<í…ìŠ¤ì³ ì‚¬ìš©ì•ˆí•¨ 1<<ì‚¬ìš©í•¨
                 strName{},
                 strTexture{},
                 strNormalTexture{},
