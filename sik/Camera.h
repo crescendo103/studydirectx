@@ -39,7 +39,7 @@ public:
 			0.0f, 0.0f, 1.0f, 0.0f,
 			0.0f, 0.0f, 0.0f, 1.0f);
 
-	};//ÀÌ°Å Ä«¸Ş¶ó·Î ¿Å±âÀÚ.
+	};//ì´ê±° ì¹´ë©”ë¼ë¡œ ì˜®ê¸°ì.
 
 public:
 	Camera(fps* ff, std::vector<std::reference_wrapper<BoundingBox>> Boxs, std::vector<BoundingBox> keyDoor, float width, float height);
@@ -102,16 +102,16 @@ private:
 	float mNearWindowHeight = 0.0f;
 	float mFarWindowHeight = 0.0f;
 
-	// È­¸é Å©±â ¹× UI ¿ä¼Ò Å©±â Á¤ÀÇ (ÇÏµåÄÚµù)
-	float screenWidth = 1200.0f;  // È­¸é ³Êºñ
-	float screenHeight = 900.0f;  // È­¸é ³ôÀÌ
+	// í™”ë©´ í¬ê¸° ë° UI ìš”ì†Œ í¬ê¸° ì •ì˜ (í•˜ë“œì½”ë”©)
+	float screenWidth = 1200.0f;  // í™”ë©´ ë„ˆë¹„
+	float screenHeight = 900.0f;  // í™”ë©´ ë†’ì´
 
-	float uiWidth = 200.0f;  // UI »ç°¢ÇüÀÇ ³Êºñ
-	float uiHeight = 100.0f; // UI »ç°¢ÇüÀÇ ³ôÀÌ
+	float uiWidth = 200.0f;  // UI ì‚¬ê°í˜•ì˜ ë„ˆë¹„
+	float uiHeight = 100.0f; // UI ì‚¬ê°í˜•ì˜ ë†’ì´
 
-	// UIÀÇ ¿À¸¥ÂÊ ÇÏ´Ü À§Ä¡ °è»ê (ÇÏµåÄÚµù)
-	float xPosition = (1200.0f / 2.0f) - (200.0f / 2.0f); // ¿À¸¥ÂÊ ÇÏ´Ü ±âÁØ x ÁÂÇ¥
-	float yPosition = -(900.0f / 2.0f) + (100.0f / 2.0f); // ¾Æ·¡ÂÊ ±âÁØ y ÁÂÇ¥
+	// UIì˜ ì˜¤ë¥¸ìª½ í•˜ë‹¨ ìœ„ì¹˜ ê³„ì‚° (í•˜ë“œì½”ë”©)
+	float xPosition = (1200.0f / 2.0f) - (200.0f / 2.0f); // ì˜¤ë¥¸ìª½ í•˜ë‹¨ ê¸°ì¤€ x ì¢Œí‘œ
+	float yPosition = -(900.0f / 2.0f) + (100.0f / 2.0f); // ì•„ë˜ìª½ ê¸°ì¤€ y ì¢Œí‘œ
 	const float GRAVITY = -0.009f;
 	const float JUMP_VELOCITY = 0.39f;
 	float velocity = 0.0f;
