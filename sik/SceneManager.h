@@ -37,7 +37,7 @@ class SceneManager
 {
 public:
 	static SceneManager& GetInstance() {
-		if (instance == nullptr) { // nullptr »ç¿ë ±ÇÀå
+		if (instance == nullptr) { // nullptr Â»Ã§Â¿Ã« Â±Ã‡Ã€Ã¥
 			instance = new SceneManager();
 		}
 		return *instance;
