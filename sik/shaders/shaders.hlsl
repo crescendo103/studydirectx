@@ -2,14 +2,14 @@
 
 cbuffer cbPerObject : register(b0)
 {
-    float4x4 gWorldViewProj; // World-View-Projection Çà·Ä
+    float4x4 gWorldViewProj; // World-View-Projection í–‰ë ¬
 }
 
 cbuffer cbMaterial : register(b1)
 {
 
     float3 vAmbient;
-    float padding1; // 4¹ÙÀÌÆ® ÆĞµù
+    float padding1; // 4ë°”ì´íŠ¸ íŒ¨ë”©
     float3 vDiffuse;
     float padding2;
     float3 vSpecular;
@@ -23,13 +23,13 @@ cbuffer cbMaterial : register(b1)
     int bEmissive;
     
     int bUseTexture;
-    int padding5; // 4¹ÙÀÌÆ® ÆĞµù
+    int padding5; // 4ë°”ì´íŠ¸ íŒ¨ë”©
 }
 
 cbuffer cbCamera : register(b2)
 {
     float3 gCameraPos;
-    float Lamp; //·£ÅÏ À¯¹« ÆÇº° 0 ¾øÀ½ 1 ÀÖÀ½
+    float Lamp; //ëœí„´ ìœ ë¬´ íŒë³„ 0 ì—†ìŒ 1 ìˆìŒ
     
     int l1;
     int l2;
@@ -43,22 +43,22 @@ cbuffer cbCamera : register(b2)
 }
 
 
-// ÅØ½ºÃ³¿Í »ùÇÃ·¯
-Texture2D gDiffuseTexture : register(t0); // ÅØ½ºÃ³ ÀÚ¿ø
-SamplerState gSampler : register(s0); // »ùÇÃ·¯ »óÅÂ
+// í…ìŠ¤ì²˜ì™€ ìƒ˜í”ŒëŸ¬
+Texture2D gDiffuseTexture : register(t0); // í…ìŠ¤ì²˜ ìì›
+SamplerState gSampler : register(s0); // ìƒ˜í”ŒëŸ¬ ìƒíƒœ
 
 struct VSInput
 {
-    float3 position : POSITION; // Á¤Á¡ À§Ä¡
-    float3 normal : NORMAL; // Á¤Á¡ ¹ı¼±
+    float3 position : POSITION; // ì •ì  ìœ„ì¹˜
+    float3 normal : NORMAL; // ì •ì  ë²•ì„ 
     float2 texcoord : TEXCOORD; // Texture coordinates
 };
 
 struct VSOutput
 {
-    float4 position : SV_POSITION; // º¯È¯µÈ Á¤Á¡ À§Ä¡
-    float3 worldPos : TEXCOORD1; // Ãß°¡: ¿ùµå ÁÂÇ¥
-    float3 normal : NORMAL; // Á¤Á¡ ¹ı¼±
+    float4 position : SV_POSITION; // ë³€í™˜ëœ ì •ì  ìœ„ì¹˜
+    float3 worldPos : TEXCOORD1; // ì¶”ê°€: ì›”ë“œ ì¢Œí‘œ
+    float3 normal : NORMAL; // ì •ì  ë²•ì„ 
     float2 texcoord : TEXCOORD; // Texture coordinates
 };
 
@@ -68,9 +68,9 @@ VSOutput VSMain(VSInput input)
     VSOutput output;
     float4 worldPos = float4(input.position, 1.0f);///
     output.position = mul(float4(input.position, 1.0f), gWorldViewProj);
-    output.worldPos = input.position; // °¡Á¤: input.position°¡ ¿ùµå ÁÂÇ¥ÀÔ´Ï´Ù.
+    output.worldPos = input.position; // ê°€ì •: input.positionê°€ ì›”ë“œ ì¢Œí‘œì…ë‹ˆë‹¤.
     output.normal = normalize(input.normal);
-    output.texcoord = input.texcoord; // ÅØ½ºÃ³ ÁÂÇ¥ Àü´Ş
+    output.texcoord = input.texcoord; // í…ìŠ¤ì²˜ ì¢Œí‘œ ì „ë‹¬
     return output;
 }
 
@@ -81,12 +81,12 @@ VSOutput VSMain(VSInput input)
 float4 PSMain(VSOutput input) : SV_TARGET
 { 
     
-     // Á¤Á¡ ¹ı¼± Á¤±ÔÈ­
+     // ì •ì  ë²•ì„  ì •ê·œí™”
     float3 normal = normalize(input.normal);
     
-     // ÅØ½ºÃ³ »ö»ó °áÁ¤ (bUseTexture°¡ true¸é ÅØ½ºÃ³, ¾Æ´Ï¸é ±âº» »ö»ó)
+     // í…ìŠ¤ì²˜ ìƒ‰ìƒ ê²°ì • (bUseTextureê°€ trueë©´ í…ìŠ¤ì²˜, ì•„ë‹ˆë©´ ê¸°ë³¸ ìƒ‰ìƒ)
     float3 texColor;
-    float3 debugDiffuse = float3(0.35601, 0.38204, 0.49707); // ±âº» »ö»ó ¿¹½Ã
+    float3 debugDiffuse = float3(0.35601, 0.38204, 0.49707); // ê¸°ë³¸ ìƒ‰ìƒ ì˜ˆì‹œ
     if (bUseTexture != 0)
     {
         texColor = gDiffuseTexture.Sample(gSampler, input.texcoord).rgb;
@@ -96,133 +96,133 @@ float4 PSMain(VSOutput input) : SV_TARGET
         texColor = debugDiffuse;
     }
     
-    // Ä«¸Ş¶ó À§Ä¡(gCameraPos)¿Í ÇÈ¼¿ÀÇ ¿ùµå ÁÂÇ¥(input.worldPos) °£ÀÇ º¤ÅÍ °è»ê
+    // ì¹´ë©”ë¼ ìœ„ì¹˜(gCameraPos)ì™€ í”½ì…€ì˜ ì›”ë“œ ì¢Œí‘œ(input.worldPos) ê°„ì˜ ë²¡í„° ê³„ì‚°
     float3 lightDir = normalize(input.worldPos - gCameraPos);
     float dist = length(input.worldPos - gCameraPos);
-    // °Å¸® ±â¹İ °¨¼è (range °ªÀº »óÈ²¿¡ ¸Â°Ô Á¶Àı)
-    float range = 20.0f; // ¿¹½Ã: ±¤¿øÀÇ ¿µÇâ ¹üÀ§
-    if (Lamp == 0.0f)//·£ÅÏ ¾øÀ» °æ¿ì
+    // ê±°ë¦¬ ê¸°ë°˜ ê°ì‡  (range ê°’ì€ ìƒí™©ì— ë§ê²Œ ì¡°ì ˆ)
+    float range = 20.0f; // ì˜ˆì‹œ: ê´‘ì›ì˜ ì˜í–¥ ë²”ìœ„
+    if (Lamp == 0.0f)//ëœí„´ ì—†ì„ ê²½ìš°
     {
         range = 10.0f;
     }
-    else//·£ÅÏ ÀÖÀ» °æ¿ì 
+    else//ëœí„´ ìˆì„ ê²½ìš° 
     {
         range = 20.0f;
     }
     
     float attenuation = saturate(1.0f - (dist / range));
 
-    // Lambert Diffuse °è»ê: µŞ¸éµµ º¸ÀÌ°Ô Àı´ë°ª »ç¿ë
+    // Lambert Diffuse ê³„ì‚°: ë’·ë©´ë„ ë³´ì´ê²Œ ì ˆëŒ€ê°’ ì‚¬ìš©
     float NdotL = abs(dot(normal, lightDir));
     float3 diffuse1 = texColor * NdotL * attenuation;
-    // ¾ËÆÄ °ªÀº ÇÊ¿ä¿¡ µû¶ó Á¶Á¤ (¿¹½Ã¿¡¼­´Â 1.0À¸·Î °íÁ¤)    
+    // ì•ŒíŒŒ ê°’ì€ í•„ìš”ì— ë”°ë¼ ì¡°ì • (ì˜ˆì‹œì—ì„œëŠ” 1.0ìœ¼ë¡œ ê³ ì •)    
     float3 finalColor = diffuse1;
     
-    // [2] µÎ ¹øÂ° Á¡±¤¿ø (°íÁ¤ À§Ä¡ ±â¹İ, ¿¹: (1,1,1))
+    // [2] ë‘ ë²ˆì§¸ ì ê´‘ì› (ê³ ì • ìœ„ì¹˜ ê¸°ë°˜, ì˜ˆ: (1,1,1))
     if (l1 == 1)
     {
-        float3 pointLightPos = float3(-18.211f, 0.0f, -29.418f); // Ãß°¡ÀûÀÎ Á¡±¤¿ø À§Ä¡
+        float3 pointLightPos = float3(-18.211f, 0.0f, -29.418f); // ì¶”ê°€ì ì¸ ì ê´‘ì› ìœ„ì¹˜
         float3 lightDir2 = normalize(input.worldPos - pointLightPos);
         float dist2 = length(input.worldPos - pointLightPos);
     
-        float range2 = 15.0f; // »õ·Î¿î Á¡±¤¿øÀÇ ¹üÀ§ (ÀûÀıÈ÷ Á¶Àı °¡´É)
+        float range2 = 15.0f; // ìƒˆë¡œìš´ ì ê´‘ì›ì˜ ë²”ìœ„ (ì ì ˆíˆ ì¡°ì ˆ ê°€ëŠ¥)
         float attenuation2 = saturate(1.0f - (dist2 / range2));
 
         float NdotL2 = abs(dot(normal, lightDir2));
         float3 diffuse2 = texColor * NdotL2 * attenuation2;
 
-    // [3] µÎ °³ÀÇ Á¡±¤¿ø Á¶ÇÕ
+    // [3] ë‘ ê°œì˜ ì ê´‘ì› ì¡°í•©
         finalColor += diffuse2;
     }
     if (l2 == 1)
     {
-        float3 pointLightPos = float3(-6.17f, 0.0f, -24.132f); // Ãß°¡ÀûÀÎ Á¡±¤¿ø À§Ä¡
+        float3 pointLightPos = float3(-6.17f, 0.0f, -24.132f); // ì¶”ê°€ì ì¸ ì ê´‘ì› ìœ„ì¹˜
         float3 lightDir2 = normalize(input.worldPos - pointLightPos);
         float dist2 = length(input.worldPos - pointLightPos);
     
-        float range2 = 15.0f; // »õ·Î¿î Á¡±¤¿øÀÇ ¹üÀ§ (ÀûÀıÈ÷ Á¶Àı °¡´É)
+        float range2 = 15.0f; // ìƒˆë¡œìš´ ì ê´‘ì›ì˜ ë²”ìœ„ (ì ì ˆíˆ ì¡°ì ˆ ê°€ëŠ¥)
         float attenuation2 = saturate(1.0f - (dist2 / range2));
 
         float NdotL2 = abs(dot(normal, lightDir2));
         float3 diffuse2 = texColor * NdotL2 * attenuation2;
 
-    // [3] µÎ °³ÀÇ Á¡±¤¿ø Á¶ÇÕ
+    // [3] ë‘ ê°œì˜ ì ê´‘ì› ì¡°í•©
         finalColor += diffuse2;
     }
     if (l3 == 1)
     {
-        float3 pointLightPos = float3(3.9131f, 0.0f, -24.132f); // Ãß°¡ÀûÀÎ Á¡±¤¿ø À§Ä¡
+        float3 pointLightPos = float3(3.9131f, 0.0f, -24.132f); // ì¶”ê°€ì ì¸ ì ê´‘ì› ìœ„ì¹˜
         float3 lightDir2 = normalize(input.worldPos - pointLightPos);
         float dist2 = length(input.worldPos - pointLightPos);
     
-        float range2 = 15.0f; // »õ·Î¿î Á¡±¤¿øÀÇ ¹üÀ§ (ÀûÀıÈ÷ Á¶Àı °¡´É)
+        float range2 = 15.0f; // ìƒˆë¡œìš´ ì ê´‘ì›ì˜ ë²”ìœ„ (ì ì ˆíˆ ì¡°ì ˆ ê°€ëŠ¥)
         float attenuation2 = saturate(1.0f - (dist2 / range2));
 
         float NdotL2 = abs(dot(normal, lightDir2));
         float3 diffuse2 = texColor * NdotL2 * attenuation2;
 
-    // [3] µÎ °³ÀÇ Á¡±¤¿ø Á¶ÇÕ
+    // [3] ë‘ ê°œì˜ ì ê´‘ì› ì¡°í•©
         finalColor += diffuse2;
     }
     if (l4 == 1)
     {
-        float3 pointLightPos = float3(22.513f, 0.0f, -22.369f); // Ãß°¡ÀûÀÎ Á¡±¤¿ø À§Ä¡
+        float3 pointLightPos = float3(22.513f, 0.0f, -22.369f); // ì¶”ê°€ì ì¸ ì ê´‘ì› ìœ„ì¹˜
         float3 lightDir2 = normalize(input.worldPos - pointLightPos);
         float dist2 = length(input.worldPos - pointLightPos);
     
-        float range2 = 15.0f; // »õ·Î¿î Á¡±¤¿øÀÇ ¹üÀ§ (ÀûÀıÈ÷ Á¶Àı °¡´É)
+        float range2 = 15.0f; // ìƒˆë¡œìš´ ì ê´‘ì›ì˜ ë²”ìœ„ (ì ì ˆíˆ ì¡°ì ˆ ê°€ëŠ¥)
         float attenuation2 = saturate(1.0f - (dist2 / range2));
 
         float NdotL2 = abs(dot(normal, lightDir2));
         float3 diffuse2 = texColor * NdotL2 * attenuation2;
 
-    // [3] µÎ °³ÀÇ Á¡±¤¿ø Á¶ÇÕ
+    // [3] ë‘ ê°œì˜ ì ê´‘ì› ì¡°í•©
         finalColor += diffuse2;
     }
     
     if (l5==1)
     {
-        float3 pointLightPos = float3(-12.631f, 0.0f, -11.f); // Ãß°¡ÀûÀÎ Á¡±¤¿ø À§Ä¡
+        float3 pointLightPos = float3(-12.631f, 0.0f, -11.f); // ì¶”ê°€ì ì¸ ì ê´‘ì› ìœ„ì¹˜
         float3 lightDir2 = normalize(input.worldPos - pointLightPos);
         float dist2 = length(input.worldPos - pointLightPos);
     
-        float range2 = 15.0f; // »õ·Î¿î Á¡±¤¿øÀÇ ¹üÀ§ (ÀûÀıÈ÷ Á¶Àı °¡´É)
+        float range2 = 15.0f; // ìƒˆë¡œìš´ ì ê´‘ì›ì˜ ë²”ìœ„ (ì ì ˆíˆ ì¡°ì ˆ ê°€ëŠ¥)
         float attenuation2 = saturate(1.0f - (dist2 / range2));
 
         float NdotL2 = abs(dot(normal, lightDir2));
         float3 diffuse2 = texColor * NdotL2 * attenuation2;
 
-    // [3] µÎ °³ÀÇ Á¡±¤¿ø Á¶ÇÕ
+    // [3] ë‘ ê°œì˜ ì ê´‘ì› ì¡°í•©
         finalColor += diffuse2;
     }
     if (l6 == 1)
     {
-        float3 pointLightPos = float3(-1.55f, 0.0f, 2.7253f); // Ãß°¡ÀûÀÎ Á¡±¤¿ø À§Ä¡
+        float3 pointLightPos = float3(-1.55f, 0.0f, 2.7253f); // ì¶”ê°€ì ì¸ ì ê´‘ì› ìœ„ì¹˜
         float3 lightDir2 = normalize(input.worldPos - pointLightPos);
         float dist2 = length(input.worldPos - pointLightPos);
     
-        float range2 = 15.0f; // »õ·Î¿î Á¡±¤¿øÀÇ ¹üÀ§ (ÀûÀıÈ÷ Á¶Àı °¡´É)
+        float range2 = 15.0f; // ìƒˆë¡œìš´ ì ê´‘ì›ì˜ ë²”ìœ„ (ì ì ˆíˆ ì¡°ì ˆ ê°€ëŠ¥)
         float attenuation2 = saturate(1.0f - (dist2 / range2));
 
         float NdotL2 = abs(dot(normal, lightDir2));
         float3 diffuse2 = texColor * NdotL2 * attenuation2;
 
-    // [3] µÎ °³ÀÇ Á¡±¤¿ø Á¶ÇÕ
+    // [3] ë‘ ê°œì˜ ì ê´‘ì› ì¡°í•©
         finalColor += diffuse2;
     }
     if (l7 == 1)
     {
-        float3 pointLightPos = float3(-22.513f, 0.0f, -4.1611f); // Ãß°¡ÀûÀÎ Á¡±¤¿ø À§Ä¡
+        float3 pointLightPos = float3(-22.513f, 0.0f, -4.1611f); // ì¶”ê°€ì ì¸ ì ê´‘ì› ìœ„ì¹˜
         float3 lightDir2 = normalize(input.worldPos - pointLightPos);
         float dist2 = length(input.worldPos - pointLightPos);
     
-        float range2 = 15.0f; // »õ·Î¿î Á¡±¤¿øÀÇ ¹üÀ§ (ÀûÀıÈ÷ Á¶Àı °¡´É)
+        float range2 = 15.0f; // ìƒˆë¡œìš´ ì ê´‘ì›ì˜ ë²”ìœ„ (ì ì ˆíˆ ì¡°ì ˆ ê°€ëŠ¥)
         float attenuation2 = saturate(1.0f - (dist2 / range2));
 
         float NdotL2 = abs(dot(normal, lightDir2));
         float3 diffuse2 = texColor * NdotL2 * attenuation2;
 
-    // [3] µÎ °³ÀÇ Á¡±¤¿ø Á¶ÇÕ
+    // [3] ë‘ ê°œì˜ ì ê´‘ì› ì¡°í•©
         finalColor += diffuse2;
     }
     return float4(finalColor, fAlpha);
