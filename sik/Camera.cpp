@@ -6,7 +6,7 @@ Camera::Camera(fps* ff, std::vector<std::reference_wrapper<BoundingBox>> Boxs, s
 	myclock = ff;	
 	float fovAngleY = XMConvertToRadians(45.0f);
 	SetLens(fovAngleY, width / height, 1.0f, 1000.0f);
-	otherBox = Boxs;//º® Ãæµ¹Ã¼
+	otherBox = Boxs;//ë²½ ì¶©ëŒì²´
 	keyDoorBox = keyDoor;
 
 	RenderManager rm;
@@ -108,7 +108,7 @@ void Camera::LookAt(const XMFLOAT3& pos, const XMFLOAT3& target, const XMFLOAT3&
 	change = true;
 }
 
-//Á÷±³Çà·ÄÀ» »ç¿ëÇÏÁö ¾Ê°í Ä«¸Ş¶ó¸¦ ÇÏ³ª ´õ µÎ¾î¼­ UI¸¦ ±¸ÇöÇÑ ºÎºĞ
+//ì§êµí–‰ë ¬ì„ ì‚¬ìš©í•˜ì§€ ì•Šê³  ì¹´ë©”ë¼ë¥¼ í•˜ë‚˜ ë” ë‘ì–´ì„œ UIë¥¼ êµ¬í˜„í•œ ë¶€ë¶„
 void Camera::UICamera(float offsetX, float offsetY, float uiWidth, float uiHeight, float NZ, float FZ)
 {
 	UpdateViewMatrix(offsetX, offsetY);
@@ -181,11 +181,11 @@ void Camera::UpdateViewMatrix()
 		mView(3, 3) = 1.0f;
 
 		//my
-		// World * View * Proj °è»ê
+		// World * View * Proj ê³„ì‚°
 		XMMATRIX view = XMLoadFloat4x4(&mView);
-		XMMATRIX proj = XMLoadFloat4x4(&mProj); // mProj´Â ÀûÀıÈ÷ ¼³Á¤µÇ¾î ÀÖ¾î¾ß ÇÕ´Ï´Ù.
+		XMMATRIX proj = XMLoadFloat4x4(&mProj); // mProjëŠ” ì ì ˆíˆ ì„¤ì •ë˜ì–´ ìˆì–´ì•¼ í•©ë‹ˆë‹¤.
 		XMMATRIX world = XMLoadFloat4x4(&mWorld);//????
-		XMMATRIX worldViewProj = view * proj * world;  // World Çà·ÄÀº Identity·Î °¡Á¤
+		XMMATRIX worldViewProj = view * proj * world;  // World í–‰ë ¬ì€ Identityë¡œ ê°€ì •
 
 		//XMStoreFloat4x4(&objConstants.WorldViewProj, worldViewProj);
 		XMStoreFloat4x4(&objConstants.WorldViewProj, XMMatrixTranspose(worldViewProj));
@@ -198,30 +198,30 @@ void Camera::CameraUpdate(float deltaX, float deltaY)
 {
 	 const float dt = myclock->deltaTime;
 
-	 XMFLOAT3 oldPosition = mPosition;  // ÇöÀç À§Ä¡ ÀúÀå
-	 XMFLOAT3 newPosition = mPosition;  // »õ·Î¿î À§Ä¡ °è»ê
+	 XMFLOAT3 oldPosition = mPosition;  // í˜„ì¬ ìœ„ì¹˜ ì €ì¥
+	 XMFLOAT3 newPosition = mPosition;  // ìƒˆë¡œìš´ ìœ„ì¹˜ ê³„ì‚°
 	 deltaX *= 0.005f;
 	 deltaY *= 0.005f;
 
 	 if (GetAsyncKeyState('W') & 0x8000) {
 		 Walk(0.1101f);// *dt);
-		 newPosition = mPosition;  // ÀÌµ¿ ÈÄ À§Ä¡ ¾÷µ¥ÀÌÆ®
-		 mPosition = oldPosition;  // ÀÏ´Ü ¿ø·¡ À§Ä¡·Î µÇµ¹·Á³õÀ½
+		 newPosition = mPosition;  // ì´ë™ í›„ ìœ„ì¹˜ ì—…ë°ì´íŠ¸
+		 mPosition = oldPosition;  // ì¼ë‹¨ ì›ë˜ ìœ„ì¹˜ë¡œ ë˜ëŒë ¤ë†“ìŒ
 	 }
 	 if (GetAsyncKeyState('S') & 0x8000) {
 		 Walk(-0.1101f); //* dt);
-		 newPosition = mPosition;  // ÀÌµ¿ ÈÄ À§Ä¡ ¾÷µ¥ÀÌÆ®
-		 mPosition = oldPosition;  // ÀÏ´Ü ¿ø·¡ À§Ä¡·Î µÇµ¹·Á³õÀ½
+		 newPosition = mPosition;  // ì´ë™ í›„ ìœ„ì¹˜ ì—…ë°ì´íŠ¸
+		 mPosition = oldPosition;  // ì¼ë‹¨ ì›ë˜ ìœ„ì¹˜ë¡œ ë˜ëŒë ¤ë†“ìŒ
 	 }
 	 if (GetAsyncKeyState('A') & 0x8000) {
 		 Strafe(-0.1101f);// *dt);
-		 newPosition = mPosition;  // ÀÌµ¿ ÈÄ À§Ä¡ ¾÷µ¥ÀÌÆ®
-		 mPosition = oldPosition;  // ÀÏ´Ü ¿ø·¡ À§Ä¡·Î µÇµ¹·Á³õÀ½
+		 newPosition = mPosition;  // ì´ë™ í›„ ìœ„ì¹˜ ì—…ë°ì´íŠ¸
+		 mPosition = oldPosition;  // ì¼ë‹¨ ì›ë˜ ìœ„ì¹˜ë¡œ ë˜ëŒë ¤ë†“ìŒ
 	 }
 	 if (GetAsyncKeyState('D') & 0x8000) {
 		 Strafe(0.1101f);// *dt);
-		 newPosition = mPosition;  // ÀÌµ¿ ÈÄ À§Ä¡ ¾÷µ¥ÀÌÆ®
-		 mPosition = oldPosition;  // ÀÏ´Ü ¿ø·¡ À§Ä¡·Î µÇµ¹·Á³õÀ½
+		 newPosition = mPosition;  // ì´ë™ í›„ ìœ„ì¹˜ ì—…ë°ì´íŠ¸
+		 mPosition = oldPosition;  // ì¼ë‹¨ ì›ë˜ ìœ„ì¹˜ë¡œ ë˜ëŒë ¤ë†“ìŒ
 	 }
 
 	 //6.04
@@ -232,17 +232,17 @@ void Camera::CameraUpdate(float deltaX, float deltaY)
 	 RotateY(deltaX);
 	 Pitch(deltaY);
 
-	 //°ú°Å Á¡ÇÁ ±¸Çö
+	 //ê³¼ê±° ì í”„ êµ¬í˜„
 	 if (GetAsyncKeyState(VK_SPACE) & 0x8000 && isJumping==false) {
 		 velocity = JUMP_VELOCITY;		
 		 isJumping = true;
 	 }
 
 	 float ddt = myclock->deltaTime;
-	 velocity += GRAVITY * ddt;  // ¼Óµµ ¾÷µ¥ÀÌÆ®
+	 velocity += GRAVITY * ddt;  // ì†ë„ ì—…ë°ì´íŠ¸
 
 	 velocity = -0.01f;
-	 newPosition.y += velocity * ddt;// À§Ä¡ ¾÷µ¥ÀÌÆ®
+	 newPosition.y += velocity * ddt;// ìœ„ì¹˜ ì—…ë°ì´íŠ¸
 	 
 	 if (newPosition.y < 0.5f) {
 		 newPosition.y = 0.5f;  //6.4		 
@@ -256,7 +256,7 @@ void Camera::CameraUpdate(float deltaX, float deltaY)
 	if (CheckCollision(Him, newPosition))
 	{
 		collisionDetected = true;		
-		shouldGameOver = true;//°ÔÀÓ¿À¹ö UI bool
+		shouldGameOver = true;//ê²Œì„ì˜¤ë²„ UI bool
 	}
 
 	if (CheckCollision(Range, newPosition))
@@ -267,7 +267,7 @@ void Camera::CameraUpdate(float deltaX, float deltaY)
 		isranged = false;
 	}
 
-	for (auto& objectBox : otherBox)//±æ,º®Åë°ú x
+	for (auto& objectBox : otherBox)//ê¸¸,ë²½í†µê³¼ x
 	{
 		if (CheckCollision(objectBox.get(), newPosition))
 		{
@@ -278,7 +278,7 @@ void Camera::CameraUpdate(float deltaX, float deltaY)
 
 	if (!collisionDetected)
 	{
-		mPosition=newPosition;  // Ãæµ¹ ¾øÀ¸¸é ÀÌµ¿ Çã¿ë
+		mPosition=newPosition;  // ì¶©ëŒ ì—†ìœ¼ë©´ ì´ë™ í—ˆìš©
 	}
 	else {
 		mPosition = oldPosition;
@@ -310,19 +310,19 @@ void Camera::UpdateBoundingBox()
 
 bool Camera::CheckCollision(const BoundingBox& checkbox, const XMFLOAT3& newPosition)
 {
-	// »õ·Î¿î À§Ä¡·Î Ä«¸Ş¶óÀÇ ¹Ù¿îµù ¹Ú½º¸¦ ÀÌµ¿
+	// ìƒˆë¡œìš´ ìœ„ì¹˜ë¡œ ì¹´ë©”ë¼ì˜ ë°”ìš´ë”© ë°•ìŠ¤ë¥¼ ì´ë™
 	BoundingBox newCameraBox;
 	newCameraBox.Center = newPosition;
-	newCameraBox.Extents = cameraBoundingBox.Extents;  // Å©±â´Â µ¿ÀÏÇÏ°Ô À¯Áö
+	newCameraBox.Extents = cameraBoundingBox.Extents;  // í¬ê¸°ëŠ” ë™ì¼í•˜ê²Œ ìœ ì§€
 
-	// »õ·Î¿î À§Ä¡¿¡¼­ Ãæµ¹ ¿©ºÎ È®ÀÎ
+	// ìƒˆë¡œìš´ ìœ„ì¹˜ì—ì„œ ì¶©ëŒ ì—¬ë¶€ í™•ì¸
 	return newCameraBox.Intersects(checkbox);
 }
 
 void Camera::UpdateViewMatrix(float offsetX, float offsetY)
 {
-	// UI ¿ä¼Ò¸¦ DirectXÀÇ Å¬¸³ ÁÂÇ¥°è¿¡ ¸ÂÃß±â À§ÇØ YÃàÀ» µÚÁıÀ½
-	XMMATRIX view = XMMatrixTranslation(offsetX, -offsetY, 0.0f); // ¿À¸¥ÂÊ ÇÏ´ÜÀ¸·Î ÀÌµ¿
+	// UI ìš”ì†Œë¥¼ DirectXì˜ í´ë¦½ ì¢Œí‘œê³„ì— ë§ì¶”ê¸° ìœ„í•´ Yì¶•ì„ ë’¤ì§‘ìŒ
+	XMMATRIX view = XMMatrixTranslation(offsetX, -offsetY, 0.0f); // ì˜¤ë¥¸ìª½ í•˜ë‹¨ìœ¼ë¡œ ì´ë™
 	XMStoreFloat4x4(&UIView, view);
 }
 
@@ -332,7 +332,7 @@ void Camera::UpdateUIprojectionMatrix(float width, float height, float nearZ, fl
 	float halfWidth = width * 0.5f;
 	float halfHeight = height * 0.5f;
 
-	// ¿ŞÂÊ ÇÏ´Ü (0,0)ÀÌ ¾Æ´Ï¶ó, Áß¾ÓÀÌ (0,0)ÀÌ µÇµµ·Ï Á¶Á¤
+	// ì™¼ìª½ í•˜ë‹¨ (0,0)ì´ ì•„ë‹ˆë¼, ì¤‘ì•™ì´ (0,0)ì´ ë˜ë„ë¡ ì¡°ì •
 	XMMATRIX proj = XMMatrixOrthographicOffCenterLH(-halfWidth, halfWidth, -halfHeight, halfHeight, nearZ, farZ);
 	XMStoreFloat4x4(&UIProj, proj);
 }
@@ -368,14 +368,14 @@ XMFLOAT3 Camera::getmyWorld()
 	return mPosition;
 }
 
-//¸éÀÇ x,y2Â÷¿ø °æ°è»óÀÚ¿Í ±×¶§ yÃàÁÂÇ¥ ¼³Á¤
+//ë©´ì˜ x,y2ì°¨ì› ê²½ê³„ìƒìì™€ ê·¸ë•Œ yì¶•ì¢Œí‘œ ì„¤ì •
 void Camera::calculateSlope()
 {
 	for (int i = 0; i < stairYPos.size(); i++) {
 		MinMax minmax_face;
 		for (int j = 0; j < stairYPos[j].size(); j++) {
 			Vec3 pos = stairYPos[i][j];
-			minmax_face.anyYpos = pos.y;//¸éÀ§ÀÇ ÀÓÀÇÀÇ y°ª
+			minmax_face.anyYpos = pos.y;//ë©´ìœ„ì˜ ì„ì˜ì˜ yê°’
 
 			if (pos.x > minmax_face.maxX) {
 				minmax_face.maxX = pos.x;
@@ -395,10 +395,10 @@ void Camera::calculateSlope()
 	}	
 }
 
-//°è´Ü °°Àº °÷À» ¿Ã¶ó°¥¶§ Ä«¸Ş¶ó yÁÂÇ¥ ¼³Á¤
+//ê³„ë‹¨ ê°™ì€ ê³³ì„ ì˜¬ë¼ê°ˆë•Œ ì¹´ë©”ë¼ yì¢Œí‘œ ì„¤ì •
 XMFLOAT3 Camera::calculateCamYpos(XMFLOAT3 myPos)
 {
-	//°è´Ü¿¡ À§Ä¡ÇÒ°æ¿ì y°ª
+	//ê³„ë‹¨ì— ìœ„ì¹˜í• ê²½ìš° yê°’
 	XMFLOAT3 val=myPos;
 	for (int i = 0; i < boundingFace.size(); i++) {
 		MinMax candidate = boundingFace[i];
@@ -408,7 +408,7 @@ XMFLOAT3 Camera::calculateCamYpos(XMFLOAT3 myPos)
 		}
 	}
 
-	//¹Ù´Ú¿¡ À§Ä¡ÇÒ°æ¿ì y°ª
+	//ë°”ë‹¥ì— ìœ„ì¹˜í• ê²½ìš° yê°’
 	for (int i = 0; i < basement.size(); i++) {
 		MinMax candidate = basement[i];
 		if ((myPos.x - candidate.maxX) * (myPos.x - candidate.minX) < 0.0f &&
