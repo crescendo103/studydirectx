@@ -23,11 +23,11 @@ PSInput VS_Skybox(VSInput input)
 {
     PSInput output;
 
-    // ÀÔ·Â À§Ä¡¸¦ ÅØ½ºÃ³ ÁÂÇ¥·Î ³Ñ±è (Á¤±ÔÈ­µÈ ¹æÇâ º¤ÅÍ)
+    // ì…ë ¥ ìœ„ì¹˜ë¥¼ í…ìŠ¤ì²˜ ì¢Œí‘œë¡œ ë„˜ê¹€ (ì •ê·œí™”ëœ ë°©í–¥ ë²¡í„°)
     output.UV = input.UV;
-     // À§Ä¡´Â ViewProj·Î º¯È¯
+     // ìœ„ì¹˜ëŠ” ViewProjë¡œ ë³€í™˜
     float4 pos = float4(input.Pos, 1.0f);
-    output.Pos = mul(SkyViewProj, pos); // ¼ø¼­ ÁÖÀÇ: column-major
+    output.Pos = mul(SkyViewProj, pos); // ìˆœì„œ ì£¼ì˜: column-major
     output.Pos.z = output.Pos.w;
     
    
@@ -37,7 +37,7 @@ PSInput VS_Skybox(VSInput input)
 
 float4 PS_Skybox(PSInput input) : SV_TARGET
 {
-    // Å¥ºê¸Ê¿¡¼­ ¹æÇâº¤ÅÍ·Î »ö »ùÇÃ¸µ
+    // íë¸Œë§µì—ì„œ ë°©í–¥ë²¡í„°ë¡œ ìƒ‰ ìƒ˜í”Œë§
    
     return skyboxTexture.Sample(skySampler, input.UV);
 }
