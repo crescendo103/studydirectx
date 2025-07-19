@@ -8,37 +8,37 @@ void SceneManager::loadScene(HWND hwnd, RECT rect)
 {
     m_hwnd = hwnd;
     clientRect = rect;
-    // ºñÆ®¸Ê ·Îµå (ÀÌ¹ÌÁö ÆÄÀÏÀ» »ç¿ëÇÏ°Å³ª ¸®¼Ò½º¸¦ ·ÎµåÇÒ ¼ö ÀÖ½À´Ï´Ù)
+    // ë¹„íŠ¸ë§µ ë¡œë“œ (ì´ë¯¸ì§€ íŒŒì¼ì„ ì‚¬ìš©í•˜ê±°ë‚˜ ë¦¬ì†ŒìŠ¤ë¥¼ ë¡œë“œí•  ìˆ˜ ìˆìŠµë‹ˆë‹¤)
     HBITMAP hBitmap = (HBITMAP)LoadImage(
-        nullptr,                     // ÀÎ½ºÅÏ½º ÇÚµé(NULLÀÌ¸é ÆÄÀÏ °æ·Î)
-        L"Scene\\loading.bmp",              // BMP ÆÄÀÏ °æ·Î
-        IMAGE_BITMAP,                // ºñÆ®¸Ê Çü½Ä
-        0, 0,                        // ¿øº» Å©±â »ç¿ë
-        LR_LOADFROMFILE              // ÆÄÀÏ¿¡¼­ ·Îµå
+        nullptr,                     // ì¸ìŠ¤í„´ìŠ¤ í•¸ë“¤(NULLì´ë©´ íŒŒì¼ ê²½ë¡œ)
+        L"Scene\\loading.bmp",              // BMP íŒŒì¼ ê²½ë¡œ
+        IMAGE_BITMAP,                // ë¹„íŠ¸ë§µ í˜•ì‹
+        0, 0,                        // ì›ë³¸ í¬ê¸° ì‚¬ìš©
+        LR_LOADFROMFILE              // íŒŒì¼ì—ì„œ ë¡œë“œ
     );
 
     if (!hBitmap) {
-        MessageBox(nullptr, L"ÀÌ¹ÌÁö¸¦ ºÒ·¯¿ÀÁö ¸øÇß½À´Ï´Ù!", L"¿À·ù", MB_OK);
+        MessageBox(nullptr, L"ì´ë¯¸ì§€ë¥¼ ë¶ˆëŸ¬ì˜¤ì§€ ëª»í–ˆìŠµë‹ˆë‹¤!", L"ì˜¤ë¥˜", MB_OK);
     }
 
     hBitmaps.push_back(hBitmap);
 
      hBitmap = (HBITMAP)LoadImage(
-        nullptr,                     // ÀÎ½ºÅÏ½º ÇÚµé(NULLÀÌ¸é ÆÄÀÏ °æ·Î)
-        L"Scene\\escape_1.bmp",              // BMP ÆÄÀÏ °æ·Î
-        IMAGE_BITMAP,                // ºñÆ®¸Ê Çü½Ä
-        0, 0,                        // ¿øº» Å©±â »ç¿ë
-        LR_LOADFROMFILE              // ÆÄÀÏ¿¡¼­ ·Îµå
+        nullptr,                     // ì¸ìŠ¤í„´ìŠ¤ í•¸ë“¤(NULLì´ë©´ íŒŒì¼ ê²½ë¡œ)
+        L"Scene\\escape_1.bmp",              // BMP íŒŒì¼ ê²½ë¡œ
+        IMAGE_BITMAP,                // ë¹„íŠ¸ë§µ í˜•ì‹
+        0, 0,                        // ì›ë³¸ í¬ê¸° ì‚¬ìš©
+        LR_LOADFROMFILE              // íŒŒì¼ì—ì„œ ë¡œë“œ
     );
 
     hBitmaps.push_back(hBitmap);
 
      hBitmap = (HBITMAP)LoadImage(
-        nullptr,                     // ÀÎ½ºÅÏ½º ÇÚµé(NULLÀÌ¸é ÆÄÀÏ °æ·Î)
-        L"Scene\\gameover_1.bmp",              // BMP ÆÄÀÏ °æ·Î
-        IMAGE_BITMAP,                // ºñÆ®¸Ê Çü½Ä
-        0, 0,                        // ¿øº» Å©±â »ç¿ë
-        LR_LOADFROMFILE              // ÆÄÀÏ¿¡¼­ ·Îµå
+        nullptr,                     // ì¸ìŠ¤í„´ìŠ¤ í•¸ë“¤(NULLì´ë©´ íŒŒì¼ ê²½ë¡œ)
+        L"Scene\\gameover_1.bmp",              // BMP íŒŒì¼ ê²½ë¡œ
+        IMAGE_BITMAP,                // ë¹„íŠ¸ë§µ í˜•ì‹
+        0, 0,                        // ì›ë³¸ í¬ê¸° ì‚¬ìš©
+        LR_LOADFROMFILE              // íŒŒì¼ì—ì„œ ë¡œë“œ
     );
 
     hBitmaps.push_back(hBitmap);
@@ -48,24 +48,24 @@ void SceneManager::DrawScene(int currentScene)
 {
         HDC hdc = GetDC(m_hwnd);
 
-        // ºñÆ®¸ÊÀ» ¸Ş¸ğ¸® DC¿¡ ¼±ÅÃ
+        // ë¹„íŠ¸ë§µì„ ë©”ëª¨ë¦¬ DCì— ì„ íƒ
         HDC memDC = CreateCompatibleDC(hdc);
         SelectObject(memDC, hBitmaps[static_cast<int>(currentScene)]);
 
-        // ºñÆ®¸Ê Å©±â °¡Á®¿À±â
+        // ë¹„íŠ¸ë§µ í¬ê¸° ê°€ì ¸ì˜¤ê¸°
         BITMAP bitmap;
         GetObject(hBitmaps[static_cast<int>(currentScene)], sizeof(BITMAP), &bitmap);
 
         int winWidth = clientRect.right - clientRect.left;
         int winHeight = clientRect.bottom - clientRect.top;
 
-        // È­¸é¿¡ Ãâ·Â
+        // í™”ë©´ì— ì¶œë ¥
         StretchBlt(hdc, 0, 0, winWidth, winHeight, memDC, 0, 0, bitmap.bmWidth, bitmap.bmHeight, SRCCOPY);
 
-        // ¸Ş¸ğ¸® DC ÇØÁ¦
+        // ë©”ëª¨ë¦¬ DC í•´ì œ
         DeleteDC(memDC);    
 
-        ReleaseDC(m_hwnd, hdc); // DC ÇØÁ¦
+        ReleaseDC(m_hwnd, hdc); // DC í•´ì œ
     
 }
 
