@@ -1,5 +1,5 @@
 
-// UI ÅØ½ºÃ³
+// UI í…ìŠ¤ì²˜
 Texture2D gUITexture : register(t0);
 SamplerState gSampler : register(s0);
 
@@ -19,25 +19,25 @@ struct VSOutput
 VSOutput VSMain(VSInput input)
 {
     VSOutput output;
-    output.position = float4(input.position, 1.0f); // ¿ùµå º¯È¯ ¾øÀÌ ±×´ë·Î »ç¿ë
+    output.position = float4(input.position, 1.0f); // ì›”ë“œ ë³€í™˜ ì—†ì´ ê·¸ëŒ€ë¡œ ì‚¬ìš©
     output.texcoord = input.texcoord;
     return output;
 }
 
-// UI Pixel Shader (±âº»ÀûÀ¸·Î »¡°£»ö Ãâ·Â)
+// UI Pixel Shader (ê¸°ë³¸ì ìœ¼ë¡œ ë¹¨ê°„ìƒ‰ ì¶œë ¥)
 float4 PSMain(VSOutput input) : SV_TARGET
 {
     
     float4 color = gUITexture.Sample(gSampler, input.texcoord);
 
-    // Å¸°Ù »ö»óÀº (0.16, 0.02, 0.35)
-    // ¾à°£ÀÇ ¿ÀÂ÷¸¦ Çã¿ëÇÏ±â À§ÇØ threshold °ªÀ» »ç¿ëÇÕ´Ï´Ù.
+    // íƒ€ê²Ÿ ìƒ‰ìƒì€ (0.16, 0.02, 0.35)
+    // ì•½ê°„ì˜ ì˜¤ì°¨ë¥¼ í—ˆìš©í•˜ê¸° ìœ„í•´ threshold ê°’ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.
     float threshold = 0.1;
     if (abs(color.r - 0.16) < threshold &&
         abs(color.g - 0.02) < threshold &&
         abs(color.b - 0.35) < threshold)
     {
-        color.a = 0.0; // Å¸°Ù »ö»ó¿¡ ÇØ´çÇÏ¸é ¿ÏÀü Åõ¸í Ã³¸®
+        color.a = 0.0; // íƒ€ê²Ÿ ìƒ‰ìƒì— í•´ë‹¹í•˜ë©´ ì™„ì „ íˆ¬ëª… ì²˜ë¦¬
     }
 
     return color;
