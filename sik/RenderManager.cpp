@@ -18,18 +18,18 @@ RenderManager::RenderManager(ID3D12Device* device, CD3DX12_CPU_DESCRIPTOR_HANDLE
     m_commandQueue = commandQueue;
     m_swapChain = swapChain;
 
-    // Fence »ı¼º
+    // Fence ìƒì„±
     ThrowIfFailed(m_device->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence)));
     m_fenceValue = 1;
 
-    // ÀÌº¥Æ® ÇÚµé »ı¼º
+    // ì´ë²¤íŠ¸ í•¸ë“¤ ìƒì„±
     m_fenceEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
     if (m_fenceEvent == nullptr)
     {
         ThrowIfFailed(HRESULT_FROM_WIN32(GetLastError()));
     }
 
-    // ÃÊ±â µ¿±âÈ­ È£Ãâ
+    // ì´ˆê¸° ë™ê¸°í™” í˜¸ì¶œ
     WaitForPreviousFrame();
 
     srand((unsigned int)time(NULL));
@@ -47,7 +47,7 @@ void RenderManager::Load(const wchar_t* fileName)
     //WaveFrontReader<index_t> reader;
     HRESULT hr = reader.Load(fileName);
     cottageVertices = reader.getVertices();
-    RotatingcottageVertices = cottageVertices;//È¸Àü¿ë ¿øº»
+    RotatingcottageVertices = cottageVertices;//íšŒì „ìš© ì›ë³¸
     cottageindices = reader.getindices();
     cottageAtrribute = reader.getAttributes();
     cottageMaterial = reader.getMaterial();
@@ -64,7 +64,7 @@ void RenderManager::Load(const wchar_t* fileName)
         cottageMaterial[i].strTexture;
     }
 
-    //¾Èº¸ÀÌ´Â °÷À¸·Î ÀÌµ¿½ÃÅ°±â À§ÇÑ ÄÚµåµé
+    //ì•ˆë³´ì´ëŠ” ê³³ìœ¼ë¡œ ì´ë™ì‹œí‚¤ê¸° ìœ„í•œ ì½”ë“œë“¤
     if(wcscmp(fileName, L"asset\\stuff\\lantern-textured-low-l-eevee-retexture.obj") == 0){
         XMMATRIX worldMatrix = MoveObject(1.3f, 1.3f, 1.3f, 0.0f, 0.0f, 10.0f, 0.0f, -0.50f, 0.0f);
         for (int i = 0; i < cottageVertices.size(); i++) {
@@ -105,7 +105,7 @@ void RenderManager::Load(const wchar_t* fileName)
         CreateVertex();
         
     }
-    else //defaultµµÇü
+    else //defaultë„í˜•
     {
         CreateVertex();
     }
@@ -122,7 +122,7 @@ void RenderManager::Load(const wchar_t* fileName)
 
     materialToIndices;
     materialBufferSize = static_cast<UINT>(cottageMaterial.size() * sizeof(WaveFrontReader<index_t>::Material));
-    //ÀçÁúÁ¤º¸°¡ ¾øÀ»¶§
+    //ì¬ì§ˆì •ë³´ê°€ ì—†ì„ë•Œ
     if (cottageMaterial.size() == 1) {
         int i = 0;
         if (cottageMaterial[i].strTexture[0] != L'\0') {
@@ -150,7 +150,7 @@ void RenderManager::Load(const wchar_t* fileName)
 
     }
     else {
-        //ÀçÁúÁ¤º¸°¡ ÀÖÀ»¶§
+        //ì¬ì§ˆì •ë³´ê°€ ìˆì„ë•Œ
         for (int i = 1; i < cottageMaterial.size(); i++)
         {
 
@@ -181,7 +181,7 @@ void RenderManager::Load(const wchar_t* fileName)
 
 Subset RenderManager::BuildMaterial(WaveFrontReader<index_t>::Material& cottageMaterial, int offset)
 {
-    //ÀçÁúµ¥ÀÌÅÍ °ü¸®
+    //ì¬ì§ˆë°ì´í„° ê´€ë¦¬
     Subset subset;
     subset.offset = offset;
     UINT matBufferSize = sizeof(WaveFrontReader<index_t>::Material);
@@ -198,17 +198,17 @@ Subset RenderManager::BuildMaterial(WaveFrontReader<index_t>::Material& cottageM
         nullptr,
         IID_PPV_ARGS(&subset.materialBuffer));
 
-    // µ¥ÀÌÅÍ º¹»ç
+    // ë°ì´í„° ë³µì‚¬
     void* mappedData;
     subset.materialBuffer->Map(0, nullptr, &mappedData);
 
-    // µ¥ÀÌÅÍ º¹»ç Àü¿¡ °ª Ãâ·Â  ÇÊ¿ä¾øÀ½
+    // ë°ì´í„° ë³µì‚¬ ì „ì— ê°’ ì¶œë ¥  í•„ìš”ì—†ìŒ
     WaveFrontReader<index_t>::Material* debugMaterial = reinterpret_cast<WaveFrontReader<index_t>::Material*>(mappedData);
 
     memcpy(mappedData, &cottageMaterial, matBufferSize);//cottageMaterial.data(), materialBufferSize);
     subset.materialBuffer->Unmap(0, nullptr);
 
-    // GPU °¡»ó ÁÖ¼Ò ÀúÀå
+    // GPU ê°€ìƒ ì£¼ì†Œ ì €ì¥
     subset.materialBufferAddress = subset.materialBuffer->GetGPUVirtualAddress();
     CD3DX12_CPU_DESCRIPTOR_HANDLE cbv2Handle;
 
@@ -235,7 +235,7 @@ Mainset RenderManager::BuildIndices(std::vector<WaveFrontReader<index_t>::Vertex
     mainset.indicesCount = indexcount;
     UINT indexBufferSize = sizeof(index_t) * (vec.size());
 
-    // ÀÎµ¦½º ¹öÆÛ »ı¼º              
+    // ì¸ë±ìŠ¤ ë²„í¼ ìƒì„±              
     CD3DX12_RESOURCE_DESC indexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(indexBufferSize);
     m_device->CreateCommittedResource(
         &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
@@ -246,16 +246,16 @@ Mainset RenderManager::BuildIndices(std::vector<WaveFrontReader<index_t>::Vertex
         IID_PPV_ARGS(&mainset.indicesBuffer)
     );
 
-    // ÀÎµ¦½º µ¥ÀÌÅÍ¸¦ ¾÷·Îµå
+    // ì¸ë±ìŠ¤ ë°ì´í„°ë¥¼ ì—…ë¡œë“œ
     void* pIndexDataBegin;
     mainset.indicesBuffer->Map(0, nullptr, &pIndexDataBegin);
     memcpy(pIndexDataBegin, vec.data(), indexBufferSize);//.data(), ISize);//sizeof(indices));
     mainset.indicesBuffer->Unmap(0, nullptr);
 
-    // ÀÎµ¦½º ¹öÆÛ ºä ¼³Á¤
-    mainset.indicesBufferView.BufferLocation = mainset.indicesBuffer->GetGPUVirtualAddress();  // ÀÎµ¦½º ¹öÆÛÀÇ GPU °¡»ó ÁÖ¼Ò
-    mainset.indicesBufferView.SizeInBytes = indexBufferSize;//sizeof(indices);  // ÀÎµ¦½º ¹öÆÛÀÇ Å©±â
-    mainset.indicesBufferView.Format = DXGI_FORMAT_R16_UINT;  // ÀÎµ¦½º µ¥ÀÌÅÍÀÇ Çü½Ä (16ºñÆ® unsigned int)
+    // ì¸ë±ìŠ¤ ë²„í¼ ë·° ì„¤ì •
+    mainset.indicesBufferView.BufferLocation = mainset.indicesBuffer->GetGPUVirtualAddress();  // ì¸ë±ìŠ¤ ë²„í¼ì˜ GPU ê°€ìƒ ì£¼ì†Œ
+    mainset.indicesBufferView.SizeInBytes = indexBufferSize;//sizeof(indices);  // ì¸ë±ìŠ¤ ë²„í¼ì˜ í¬ê¸°
+    mainset.indicesBufferView.Format = DXGI_FORMAT_R16_UINT;  // ì¸ë±ìŠ¤ ë°ì´í„°ì˜ í˜•ì‹ (16ë¹„íŠ¸ unsigned int)
 
     BoundingBox thebox = BoundBox(vertex ,vec);
     mainset.Box = thebox;
@@ -264,7 +264,7 @@ Mainset RenderManager::BuildIndices(std::vector<WaveFrontReader<index_t>::Vertex
 
 UINT RenderManager::CalcConstantBufferByteSize(UINT byteSize)
 {
-    // 256¹ÙÀÌÆ®ÀÇ ¹è¼ö·Î Á¤·Ä
+    // 256ë°”ì´íŠ¸ì˜ ë°°ìˆ˜ë¡œ ì •ë ¬
     return (byteSize + 255) & ~255;
 }
 
@@ -287,15 +287,15 @@ int RenderManager::getOffset()
 Subset RenderManager::CreateTexture(WaveFrontReader<index_t>::Material& cottageMaterial, int offset)
 {
 
-    ThrowIfFailed(m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocaotor)));//ÃÊ±âÈ­¸¸À» À§ÇÑ ÇÒ´çÀÚ
-    ThrowIfFailed(m_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocaotor.Get(), m_pipelineState.Get(), IID_PPV_ARGS(&commandList)));//ÃÊ±âÈ­ ¸®½ºÆ®
+    ThrowIfFailed(m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&commandAllocaotor)));//ì´ˆê¸°í™”ë§Œì„ ìœ„í•œ í• ë‹¹ì
+    ThrowIfFailed(m_device->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, commandAllocaotor.Get(), m_pipelineState.Get(), IID_PPV_ARGS(&commandList)));//ì´ˆê¸°í™” ë¦¬ìŠ¤íŠ¸
 
     Subset subset;
     subset.istexture = true;
 
     ComPtr<ID3D12Resource> m_pTex2D;
 
-    //¸®¼Ò½º »ı¼º
+    //ë¦¬ì†ŒìŠ¤ ìƒì„±
     D3D12_RESOURCE_DESC    m_tDesc;
     m_tDesc.MipLevels = 1;
     m_tDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -307,7 +307,7 @@ Subset RenderManager::CreateTexture(WaveFrontReader<index_t>::Material& cottageM
     m_tDesc.SampleDesc.Quality = 0;
     m_tDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
     m_tDesc.Layout = D3D12_TEXTURE_LAYOUT::D3D12_TEXTURE_LAYOUT_UNKNOWN;
-    m_tDesc.Alignment = 0; // ±âº» Á¤·Ä »ç¿ë
+    m_tDesc.Alignment = 0; // ê¸°ë³¸ ì •ë ¬ ì‚¬ìš©
 
     HRESULT hr = m_device->CreateCommittedResource(
         &CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT),
@@ -317,18 +317,18 @@ Subset RenderManager::CreateTexture(WaveFrontReader<index_t>::Material& cottageM
         nullptr,
         IID_PPV_ARGS(&m_pTex2D));
 
-    //ÀÏ´Ü ¹Ş¾ÆµÎÀÚ
-    std::unique_ptr<uint8_t[]> decodedData;    // µğÄÚµùµÈ µ¥ÀÌÅÍ Æ÷ÀÎÅÍ
-    D3D12_SUBRESOURCE_DATA subresourceData;    // ¼­ºê ¸®¼Ò½º µ¥ÀÌÅÍ
-    //ºí·Î±×¿¡¼­´Â º¤ÅÍ·Î ÁöÁ¤
+    //ì¼ë‹¨ ë°›ì•„ë‘ì
+    std::unique_ptr<uint8_t[]> decodedData;    // ë””ì½”ë”©ëœ ë°ì´í„° í¬ì¸í„°
+    D3D12_SUBRESOURCE_DATA subresourceData;    // ì„œë¸Œ ë¦¬ì†ŒìŠ¤ ë°ì´í„°
+    //ë¸”ë¡œê·¸ì—ì„œëŠ” ë²¡í„°ë¡œ ì§€ì •
     wchar_t* fileName = cottageMaterial.strTexture;//L"Cube.obj";
     hr = LoadWICTextureFromFile(m_device.Get(), fileName , &m_pTex2D, decodedData, subresourceData);// L"gray.png"
     if (!SUCCEEDED(hr)) {
-        assert("ÀÌ¹ÌÁö ·Îµå½ÇÆĞ");
+        assert("ì´ë¯¸ì§€ ë¡œë“œì‹¤íŒ¨");
     }
     const UINT64 uploadBufferSize =
         GetRequiredIntermediateSize(m_pTex2D.Get(),
-            0, static_cast<unsigned int>(1));//´ÜÀÏ¼­ºê¸®¼Ò½º
+            0, static_cast<unsigned int>(1));//ë‹¨ì¼ì„œë¸Œë¦¬ì†ŒìŠ¤
 
 
     hr = m_device->CreateCommittedResource(
@@ -342,22 +342,22 @@ Subset RenderManager::CreateTexture(WaveFrontReader<index_t>::Material& cottageM
     if (FAILED(hr))
         assert(nullptr);
 
-    UpdateSubresources(commandList.Get(),//ÇÊ¿ä¾ø´Ù...?
+    UpdateSubresources(commandList.Get(),//í•„ìš”ì—†ë‹¤...?
         m_pTex2D.Get(),
         textureUploadHeap.Get(),
         0, 0,
-        static_cast<unsigned int>(1),//(vecSubresources.size()),´ÜÀÏ¼­ºê¸®¼Ò½º
+        static_cast<unsigned int>(1),//(vecSubresources.size()),ë‹¨ì¼ì„œë¸Œë¦¬ì†ŒìŠ¤
         &subresourceData);
 
-    // SRV »ı¼º ÈÄ ¸®¼Ò½º »óÅÂ¸¦ º¯°æÇÕ´Ï´Ù.
+    // SRV ìƒì„± í›„ ë¦¬ì†ŒìŠ¤ ìƒíƒœë¥¼ ë³€ê²½í•©ë‹ˆë‹¤.
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
     barrier.Transition.pResource = m_pTex2D.Get();
-    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST; // ÇöÀç »óÅÂ
-    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE; // º¯°æÇÒ »óÅÂ
+    barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST; // í˜„ì¬ ìƒíƒœ
+    barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE; // ë³€ê²½í•  ìƒíƒœ
     barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
 
-    // ¸®¼Ò½º Àåº® Ãß°¡
+    // ë¦¬ì†ŒìŠ¤ ì¥ë²½ ì¶”ê°€
     commandList->ResourceBarrier(1, &barrier);
 
 
@@ -371,7 +371,7 @@ Subset RenderManager::CreateTexture(WaveFrontReader<index_t>::Material& cottageM
 
 
 
-    // SRV »ı¼º
+    // SRV ìƒì„±
     D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
     srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
     srvDesc.Format = m_pTex2D->GetDesc().Format;
@@ -392,10 +392,10 @@ std::vector<Subset> RenderManager::getLeaf()
 
 BoundingBox RenderManager::BoundBox(std::vector<WaveFrontReader<index_t>::Vertex> cottageVertices, std::vector<index_t> cottageindices)
 {
-    XMFLOAT3 minPos(FLT_MAX, FLT_MAX, FLT_MAX); // ÃÖ¼Ò°ª
-    XMFLOAT3 maxPos(-FLT_MAX, -FLT_MAX, -FLT_MAX); // ÃÖ´ë°ª
+    XMFLOAT3 minPos(FLT_MAX, FLT_MAX, FLT_MAX); // ìµœì†Œê°’
+    XMFLOAT3 maxPos(-FLT_MAX, -FLT_MAX, -FLT_MAX); // ìµœëŒ€ê°’
 
-    // Á¤Á¡µéÀÇ ÃÖ¼Ò°ª/ÃÖ´ë°ªÀ» °è»ê
+    // ì •ì ë“¤ì˜ ìµœì†Œê°’/ìµœëŒ€ê°’ì„ ê³„ì‚°
     for (int i = 0; i < cottageindices.size(); i++) {
         //XMFLOAT3 vertexPos = cottageVertices[i].position;
         XMFLOAT3 vertexPos = cottageVertices[cottageindices[i]].position;
@@ -408,12 +408,12 @@ BoundingBox RenderManager::BoundBox(std::vector<WaveFrontReader<index_t>::Vertex
         maxPos.y = std::max(maxPos.y, vertexPos.y);
         maxPos.z = std::max(maxPos.z, vertexPos.z);
     }
-    XMFLOAT3 mainspot((minPos.x + maxPos.x) / 2, (minPos.y + maxPos.y) / 2, (minPos.z + maxPos.z) / 2); // Áß¾ÓÁ¡
-    XMFLOAT3 rangee((maxPos.x - minPos.x) / 2, (maxPos.y - minPos.y) / 2, (maxPos.z - minPos.z) / 2); // ¹İÁö¸§ ¹üÀ§
-    // BoundingBox °´Ã¼ »ı¼º    
+    XMFLOAT3 mainspot((minPos.x + maxPos.x) / 2, (minPos.y + maxPos.y) / 2, (minPos.z + maxPos.z) / 2); // ì¤‘ì•™ì 
+    XMFLOAT3 rangee((maxPos.x - minPos.x) / 2, (maxPos.y - minPos.y) / 2, (maxPos.z - minPos.z) / 2); // ë°˜ì§€ë¦„ ë²”ìœ„
+    // BoundingBox ê°ì²´ ìƒì„±    
     BoundingBox Bounds;
-    Bounds.Center = mainspot;  // Áß½É ¼³Á¤
-    Bounds.Extents = rangee; //¹üÀ§ ¼³Á¤
+    Bounds.Center = mainspot;  // ì¤‘ì‹¬ ì„¤ì •
+    Bounds.Extents = rangee; //ë²”ìœ„ ì„¤ì •
 
     return Bounds;
 }
@@ -517,15 +517,15 @@ XMMATRIX RenderManager::MoveObject(float ScaleX, float ScaleY, float ScaleZ, flo
 {
     XMMATRIX scaleMatrix = XMMatrixScaling(ScaleX, ScaleY, ScaleZ);
 
-    // °¢ Ãà¿¡ ´ëÇÑ È¸Àü º¯È¯ Çà·Ä
+    // ê° ì¶•ì— ëŒ€í•œ íšŒì „ ë³€í™˜ í–‰ë ¬
     XMMATRIX rotationXMatrix = XMMatrixRotationX(XMConvertToRadians(RadianX));
     XMMATRIX rotationYMatrix = XMMatrixRotationY(XMConvertToRadians(RadianY));
     XMMATRIX rotationZMatrix = XMMatrixRotationZ(XMConvertToRadians(RadianZ));
 
-    // È¸Àü Çà·Ä °áÇÕ (¼ø¼­ Áß¿ä! ÀÏ¹İÀûÀ¸·Î Z -> X -> Y ¼ø¼­ »ç¿ë)
+    // íšŒì „ í–‰ë ¬ ê²°í•© (ìˆœì„œ ì¤‘ìš”! ì¼ë°˜ì ìœ¼ë¡œ Z -> X -> Y ìˆœì„œ ì‚¬ìš©)
     XMMATRIX rotationMatrix = rotationZMatrix * rotationXMatrix * rotationYMatrix;
 
-    // XÃà ¹æÇâÀ¸·Î 5¸¸Å­ ÀÌµ¿ÇÏ´Â º¯È¯ Çà·Ä            
+    // Xì¶• ë°©í–¥ìœ¼ë¡œ 5ë§Œí¼ ì´ë™í•˜ëŠ” ë³€í™˜ í–‰ë ¬            
     XMMATRIX translationMatrix = XMMatrixTranslation(TransX, TransY, TransZ);
 
     XMMATRIX worldMatrix = scaleMatrix * rotationMatrix * translationMatrix;
@@ -535,7 +535,7 @@ XMMATRIX RenderManager::MoveObject(float ScaleX, float ScaleY, float ScaleZ, flo
 
 std::vector<WaveFrontReader<index_t>::Vertex>& RenderManager::getCottageVertices()
 {
-    // TODO: ¿©±â¿¡ return ¹®À» »ğÀÔÇÕ´Ï´Ù.
+    // TODO: ì—¬ê¸°ì— return ë¬¸ì„ ì‚½ì…í•©ë‹ˆë‹¤.
     return cottageVertices;
 }
 
@@ -565,7 +565,7 @@ void RenderManager::CreateDirectTexture(const wchar_t* fileName, int offset)
 
 BoundingBox RenderManager::getBoundingBox()
 {
-    // TODO: ¿©±â¿¡ return ¹®À» »ğÀÔÇÕ´Ï´Ù.
+    // TODO: ì—¬ê¸°ì— return ë¬¸ì„ ì‚½ì…í•©ë‹ˆë‹¤.
     BoundingBox once = tree[0].Box;
     return once;
 }
@@ -582,14 +582,14 @@ bool RenderManager::getIsLamp()
 
 void RenderManager::setfAlpha0()
 {
-    //ÀçÁúÁ¤º¸°¡ ÀÖÀ»¶§
+    //ì¬ì§ˆì •ë³´ê°€ ìˆì„ë•Œ
     for (int i = 1; i < cottageMaterial.size(); i++)
     {
 
         if (cottageMaterial[i].strTexture[0] != L'\0') {
             //Todo
             cottageMaterial[i].bUseTexture = 1;
-            cottageMaterial[i].fAlpha = 0.0f;//Ãß°¡
+            cottageMaterial[i].fAlpha = 0.0f;//ì¶”ê°€
             Subset sb;
             sb = BuildMaterial(cottageMaterial[i], handleoffset2);
             handleoffset2++;
@@ -599,7 +599,7 @@ void RenderManager::setfAlpha0()
             handleoffset2++;
         }
         else {
-            cottageMaterial[i].fAlpha = 0.0f;//Ãß°¡
+            cottageMaterial[i].fAlpha = 0.0f;//ì¶”ê°€
             Subset temp = BuildMaterial(cottageMaterial[i], handleoffset2);
             leaf.push_back(temp);
             handleoffset2++;
@@ -609,14 +609,14 @@ void RenderManager::setfAlpha0()
 
 void RenderManager::setfAlpha1()
 {
-    //ÀçÁúÁ¤º¸°¡ ÀÖÀ»¶§
+    //ì¬ì§ˆì •ë³´ê°€ ìˆì„ë•Œ
     for (int i = 1; i < cottageMaterial.size(); i++)
     {
 
         if (cottageMaterial[i].strTexture[0] != L'\0') {
             //Todo
             cottageMaterial[i].bUseTexture = 1;
-            cottageMaterial[i].fAlpha = 1.0f;//Ãß°¡
+            cottageMaterial[i].fAlpha = 1.0f;//ì¶”ê°€
             Subset sb;
             sb = BuildMaterial(cottageMaterial[i], handleoffset3);
             handleoffset3++;
@@ -626,7 +626,7 @@ void RenderManager::setfAlpha1()
             handleoffset3++;
         }
         else {
-            cottageMaterial[i].fAlpha = 1.0f;//Ãß°¡
+            cottageMaterial[i].fAlpha = 1.0f;//ì¶”ê°€
             Subset temp = BuildMaterial(cottageMaterial[i], handleoffset3);
             leaf.push_back(temp);
             handleoffset3++;
@@ -650,19 +650,19 @@ XMMATRIX RenderManager::GetIdentitySRTMatrix()
     return srt;
 }
 
-//¹°Ã¼ ±¸¼º¼ººĞ¿¡¼­ Æò¸éÀÌ yÃà¿¡ ÆòÇàÇÑ°æ¿ì
-//Æò¸é ÆÄ½Ì
+//ë¬¼ì²´ êµ¬ì„±ì„±ë¶„ì—ì„œ í‰ë©´ì´ yì¶•ì— í‰í–‰í•œê²½ìš°
+//í‰ë©´ íŒŒì‹±
 std::vector<  std::vector<Vec3>> RenderManager::stairYVertex(const wchar_t* fileName)
 {
-    float Diff = 0.1f;//¿ÀÂ÷°ª
+    float Diff = 0.1f;//ì˜¤ì°¨ê°’
 
     std::ifstream infile(fileName);
     std::string line;
 
-    std::vector<Vec3> vertices;  // Á¤Á¡ ÁÂÇ¥ ÀúÀå (1-based index)
-    std::vector<Vec3> normals;   // ¹ı¼± ÀúÀå (1-based index)
-    std::vector<int> y_like_normal_indices;  // yÃà°ú °ÅÀÇ ÆòÇàÇÑ ¹ı¼± ÀÎµ¦½º
-    std::vector< std::vector<Vec3>> face_vertex_coords;  // (face line ¹øÈ£, Á¤Á¡ ÁÂÇ¥)
+    std::vector<Vec3> vertices;  // ì •ì  ì¢Œí‘œ ì €ì¥ (1-based index)
+    std::vector<Vec3> normals;   // ë²•ì„  ì €ì¥ (1-based index)
+    std::vector<int> y_like_normal_indices;  // yì¶•ê³¼ ê±°ì˜ í‰í–‰í•œ ë²•ì„  ì¸ë±ìŠ¤
+    std::vector< std::vector<Vec3>> face_vertex_coords;  // (face line ë²ˆí˜¸, ì •ì  ì¢Œí‘œ)
 
     int face_line = 0;
     int line_number = 0;
@@ -672,14 +672,14 @@ std::vector<  std::vector<Vec3>> RenderManager::stairYVertex(const wchar_t* file
         std::istringstream iss(line);
 
         if (line.rfind("v ", 0) == 0) {
-            // Á¤Á¡ Ã³¸® (v)
+            // ì •ì  ì²˜ë¦¬ (v)
             std::string dummy;
             float x, y, z;
             iss >> dummy >> x >> y >> z;
             vertices.push_back({ x, y, z });
         }
         else if (line.rfind("vn", 0) == 0) {
-            // ¹ı¼± Ã³¸® (vn)
+            // ë²•ì„  ì²˜ë¦¬ (vn)
             std::string dummy;
             float x, y, z;
             iss >> dummy >> x >> y >> z;
@@ -691,7 +691,7 @@ std::vector<  std::vector<Vec3>> RenderManager::stairYVertex(const wchar_t* file
             //}
         }
         else if (line.rfind("f", 0) == 0) {
-            // face Ã³¸® (f)
+            // face ì²˜ë¦¬ (f)
             face_line++;
 
             std::string dummy, vertex;
@@ -708,9 +708,9 @@ std::vector<  std::vector<Vec3>> RenderManager::stairYVertex(const wchar_t* file
 
                 if (!vn_str.empty()) {
                     int vn_idx = std::stoi(vn_str);
-                    // ¹ı¼± ÀÎµ¦½º°¡ yÃà°ú °ÅÀÇ ÆòÇàÇÑ ¹ı¼± ¸®½ºÆ®¿¡ ÀÖ´Â °æ¿ì¸¸ Ã³¸®
+                    // ë²•ì„  ì¸ë±ìŠ¤ê°€ yì¶•ê³¼ ê±°ì˜ í‰í–‰í•œ ë²•ì„  ë¦¬ìŠ¤íŠ¸ì— ìˆëŠ” ê²½ìš°ë§Œ ì²˜ë¦¬
                     if (std::find(y_like_normal_indices.begin(), y_like_normal_indices.end(), vn_idx) != y_like_normal_indices.end()) {
-                        int v_idx = std::stoi(v_str);  // Á¤Á¡ ÀÎµ¦½º 1ºÎÅÍ ½ÃÀÛ
+                        int v_idx = std::stoi(v_str);  // ì •ì  ì¸ë±ìŠ¤ 1ë¶€í„° ì‹œì‘
                         if (v_idx > 0 && v_idx <= (int)vertices.size()) {
                             Vec3 vertex_pos = vertices[v_idx - 1];
                             facevertex.push_back(vertex_pos);                            
@@ -725,14 +725,14 @@ std::vector<  std::vector<Vec3>> RenderManager::stairYVertex(const wchar_t* file
         }
     }
     return face_vertex_coords;
-    // ÀÌÁ¦ face_vertex_coords ¾È¿¡ ¿øÇÏ´Â face_lineº° Á¤Á¡ ÁÂÇ¥µéÀÌ ÀúÀåµÊ
+    // ì´ì œ face_vertex_coords ì•ˆì— ì›í•˜ëŠ” face_lineë³„ ì •ì  ì¢Œí‘œë“¤ì´ ì €ì¥ë¨
 }
 
 void RenderManager::minmaxBase(const wchar_t* fileName)
 {
     std::ifstream file(fileName);
     if (!file.is_open()) {
-        std::cerr << "ÆÄÀÏÀ» ¿­ ¼ö ¾ø½À´Ï´Ù." << std::endl;
+        std::cerr << "íŒŒì¼ì„ ì—´ ìˆ˜ ì—†ìŠµë‹ˆë‹¤." << std::endl;
     }
 
     float minX = 1000.0f;
@@ -744,13 +744,13 @@ void RenderManager::minmaxBase(const wchar_t* fileName)
 
     std::string line;
     while (std::getline(file, line)) {
-        if (line.rfind("v ", 0) == 0) { // "v "·Î ½ÃÀÛÇÏ´Â ÁÙ¸¸ Ã³¸®
+        if (line.rfind("v ", 0) == 0) { // "v "ë¡œ ì‹œì‘í•˜ëŠ” ì¤„ë§Œ ì²˜ë¦¬
             std::istringstream iss(line);
             std::string v;
             float x, y, z;
             iss >> v >> x >> y >> z;
 
-            if (!firstYFound) {//Ã¹¹øÂ° y°ªÆÄ½Ì
+            if (!firstYFound) {//ì²«ë²ˆì§¸ yê°’íŒŒì‹±
                 firstY = y;
                 firstYFound = true;
             }
@@ -771,7 +771,7 @@ void RenderManager::minmaxBase(const wchar_t* fileName)
 
     baseLimitY.push_back(temp);
 
-    //½ÃÀÛÁöÁ¡ÀÌ ¹Ù´Ú ÁöºØÆ÷ÇÔ ÇÏ³ª¿©¼­ µû·Î ÆÄ½ÌÇÏÁö¾Ê°í ¼öµ¿±âÀÔ
+    //ì‹œì‘ì§€ì ì´ ë°”ë‹¥ ì§€ë¶•í¬í•¨ í•˜ë‚˜ì—¬ì„œ ë”°ë¡œ íŒŒì‹±í•˜ì§€ì•Šê³  ìˆ˜ë™ê¸°ì…
     temp.maxX = 2.14f;
     temp.minX = -2.6f;
     temp.maxZ = 9.61f;
