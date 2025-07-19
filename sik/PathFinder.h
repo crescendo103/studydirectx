@@ -1,14 +1,14 @@
 #pragma once
-#include <iostream>  // ÀÔÃâ·Â
-#include <vector>    // º¤ÅÍ »ç¿ë
-#include <list>      // ¿¬°á ¸®½ºÆ® »ç¿ë
-#include <map>       // std::map »ç¿ë
+#include <iostream>  // ì…ì¶œë ¥
+#include <vector>    // ë²¡í„° ì‚¬ìš©
+#include <list>      // ì—°ê²° ë¦¬ìŠ¤íŠ¸ ì‚¬ìš©
+#include <map>       // std::map ì‚¬ìš©
 
 
 struct Point {
 	float x;
 	float z;
-	// == ¿¬»êÀÚ ¿À¹ö·Îµù Ãß°¡
+	// == ì—°ì‚°ì ì˜¤ë²„ë¡œë”© ì¶”ê°€
 	bool operator==(const Point& other) const {
 		return x == other.x && z == other.z;
 	}
@@ -18,7 +18,7 @@ class PathFinder
 {
 public:
 	static PathFinder& GetInstance() {
-		if (instance == nullptr) { // nullptr »ç¿ë ±ÇÀå
+		if (instance == nullptr) { // nullptr ì‚¬ìš© ê¶Œì¥
 			instance = new PathFinder();
 		}
 		return *instance;
@@ -37,7 +37,7 @@ private:
 	static PathFinder* instance;
 	PathFinder() {}
 	~PathFinder() {}
-	std::vector<std::list<Point>> Map; //¿¬°á¸®½ºÆ®
+	std::vector<std::list<Point>> Map; //ì—°ê²°ë¦¬ìŠ¤íŠ¸
 	Point current;
 };
 
