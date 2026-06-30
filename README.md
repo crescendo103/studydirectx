@@ -1,4 +1,4 @@
-# studydirectx
+# study directx
 
 <p align="center">
   <img src="https://commons.wikimedia.org/wiki/Special:FilePath/DirectX_logo.png" alt="DirectX" width="300"/>
